@@ -3,19 +3,19 @@ export default function Navbar(){
     <nav className="nav">
       <ul>
         <li>
-          <a href="">Home</a>
+          <a href="/Home">Home</a>
           </li>
         <li>
-          <a href="">Find A Tutor</a>
+          <a href="/FindATutor">Find A Tutor</a>
           </li>
         <li>
-          <a href="">Profile Settings</a>
+          <a href="/ProfileSettings">Profile Settings</a>
           </li>
         <li>
-          <a href="">Log Out</a>
+          <a href="/LogOut">Log Out</a>
           </li>
         <li>
-          <a href="">Notifications</a>
+          <a href="/Notifications">Notifications</a>
           </li>
       </ul>
     </nav>
