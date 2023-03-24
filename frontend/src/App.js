@@ -9,7 +9,7 @@ import ProfileSettings from './Pages/ProfileSettings';
 function App() {
   let page
   switch (window.location.pathname) {
-    case "/":
+    case "/Home":
         page = <Home/>
       break
     case "/FindATutor":
@@ -28,7 +28,9 @@ function App() {
   return (
     <>
       <Navbar/>
-      {page}
+      <div className="container">
+        {page}
+      </div>
     </>
   );
 }

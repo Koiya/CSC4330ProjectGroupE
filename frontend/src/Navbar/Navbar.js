@@ -2,22 +2,22 @@ export default function Navbar(){
   return (
     <nav className="nav">
       <ul>
-        <li>
-          <a href="/Home">Home</a>
-          </li>
-        <li>
-          <a href="/FindATutor">Find A Tutor</a>
-          </li>
-        <li>
-          <a href="/ProfileSettings">Profile Settings</a>
-          </li>
-        <li>
-          <a href="/LogOut">Log Out</a>
-          </li>
-        <li>
-          <a href="/Notifications">Notifications</a>
-          </li>
+        <PageLink href="/Home">Home</PageLink>
+        <PageLink href="/FindATutor">Find A Tutor</PageLink>
+        <PageLink href="/ProfileSettings">Profile Settings</PageLink>
+        <PageLink href="/LogOut">Log Out</PageLink>
+        <PageLink href="/Notifications">Notifications</PageLink>
       </ul>
     </nav>
+  )
+}
+
+function PageLink({href, children, ...props}) {
+  const path = window.location.pathname;
+
+  return (
+    <li className={path === href ? "active" : ""}>
+      <a href={href} {...props}>{children}</a>
+    </li>
   )
 }
