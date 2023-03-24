@@ -5,31 +5,20 @@ import Home from './Pages/Home';
 import LogOut from './Pages/LogOut';
 import Notifications from './Pages/Notifications';
 import ProfileSettings from './Pages/ProfileSettings';
+import {Route, Routes} from "react-router-dom";
 
 function App() {
-  let page
-  switch (window.location.pathname) {
-    case "/Home":
-        page = <Home/>
-      break
-    case "/FindATutor":
-        page = <FindATutor/>
-      break
-    case "/ProfileSettings":
-        page = <ProfileSettings/>
-      break
-    case "/LogOut":
-        page = <LogOut/>
-      break
-    case "/Notifications":
-        page = <Notifications/>
-      break
-  }
   return (
     <>
       <Navbar/>
       <div className="container">
-        {page}
+       <Routes>
+          <Route path="/Home" element={<Home/>} />
+          <Route path="/FindATutor" element={<FindATutor/>} />
+          <Route path="/ProfileSettings" element={<ProfileSettings/>} />
+          <Route path="/LogOut" element={<LogOut/>} />
+          <Route path="/Notifications" element={<Notifications/>} />
+       </Routes>
       </div>
     </>
   );
