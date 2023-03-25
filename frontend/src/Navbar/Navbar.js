@@ -4,7 +4,7 @@ export default function Navbar(){
   return (
     <nav className="nav">
       <ul>
-        <PageLink to="/Home">Home</PageLink>
+        <PageLink to="/">Home</PageLink>
         <PageLink to="/FindATutor">Find A Tutor</PageLink>
         <PageLink to="/Notifications">Notifications</PageLink>
       </ul>
