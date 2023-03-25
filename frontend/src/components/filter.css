@@ -1,0 +1,8 @@
+ul {
+    list-style-type: none;
+
+}
+#filter-component {
+    width:150px;
+    float:left;
+}
