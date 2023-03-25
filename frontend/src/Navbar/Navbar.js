@@ -6,9 +6,11 @@ export default function Navbar(){
       <ul>
         <PageLink to="/Home">Home</PageLink>
         <PageLink to="/FindATutor">Find A Tutor</PageLink>
+        <PageLink to="/Notifications">Notifications</PageLink>
+      </ul>
+      <ul className="">
         <PageLink to="/ProfileSettings">Profile Settings</PageLink>
         <PageLink to="/LogOut">Log Out</PageLink>
-        <PageLink to="/Notifications">Notifications</PageLink>
       </ul>
     </nav>
   )

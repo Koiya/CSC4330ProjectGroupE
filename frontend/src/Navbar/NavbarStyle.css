@@ -10,10 +10,10 @@ body {
     background-color: #282c34;
     color: white;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: stretch;
-    gap: 2rem;
-    padding: 0 1rem;
+    gap: 50rem;
+    padding: 0 9rem;
     height: 4rem;
     font-weight: bold;
     border-radius: 0 0 215px 215px;
