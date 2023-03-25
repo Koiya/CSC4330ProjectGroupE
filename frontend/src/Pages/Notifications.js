@@ -1,8 +1,10 @@
 export default function Notifications() {
     return (
-        <div className="NotifcationStyle">
+        <div className="backgroundSize">
             <h1>Notifications</h1>
-            <a>test</a>
+            <div className="backgroundSize">
+                <p>Test</p>
+            </div>
         </div>
     )
 }
