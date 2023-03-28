@@ -45,3 +45,17 @@ body {
 .nav li:hover {
     background-color: #777;
 }
+
+.button {
+    font-weight: bold;
+    font-size: large;
+}
+
+
+@media screen and (max-width : 760px) {
+
+}
+ 
+/*
+    TODO: add screen sizes 
+*/
