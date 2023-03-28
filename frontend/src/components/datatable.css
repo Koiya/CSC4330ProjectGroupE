@@ -1,4 +1,5 @@
 #table-component{
-    float: left;
+    position:relative;
+    float:right;
 
 }
