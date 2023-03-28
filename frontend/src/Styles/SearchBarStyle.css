@@ -1,0 +1,13 @@
+.searchBar {
+    font-weight: bold;
+    font-size: large;
+    width: 250px;
+    text-align: center;
+    margin-right: 5px;
+}
+
+.searchBarButton {
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+}

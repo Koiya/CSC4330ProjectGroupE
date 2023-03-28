@@ -3,9 +3,10 @@ const SearchBar = () => (
         <input
             type="text"
             id="header-search"
-            placeholder="Search for tutors"
+            placeholder="Look For Tutors"
+            className="searchBar"
         />
-        <button type="submit">Search</button>
+        <button className="searchBarButton" type="submit">Search</button>
     </form>
 );
 
