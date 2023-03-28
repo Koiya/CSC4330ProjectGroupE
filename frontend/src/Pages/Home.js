@@ -1,10 +1,12 @@
-import SearchBar from "../SearchBar/SearchBar"
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Home() {
     return (
         <>
-            <h1>Home</h1>
-            <SearchBar/>
+            <div className="backgroundSize">
+                <h1>Home</h1>
+                <SearchBar/>
+            </div>
         </>
     )
 }

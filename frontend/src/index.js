@@ -1,10 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import "./Navbar/NavbarStyle.css";
 import {BrowserRouter} from "react-router-dom";
+
+//Styles
+import './index.css';
+import './Styles/NavbarStyle.css';
+import './Styles/NotificationStyle.css';
+import './Styles/HomeStyle.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

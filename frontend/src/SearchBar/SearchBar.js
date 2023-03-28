@@ -4,7 +4,6 @@ const SearchBar = () => (
             type="text"
             id="header-search"
             placeholder="Search for tutors"
-            name="s" 
         />
         <button type="submit">Search</button>
     </form>
