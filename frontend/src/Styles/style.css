@@ -157,4 +157,8 @@
    font-size: large;
    font-weight: bold;
  }
+
+ .messageAlign {
+   justify-content: space-between;
+ }
  

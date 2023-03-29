@@ -11,12 +11,14 @@ export default function Notifications() {
                 <p className="messageText">
                     for this subject
                 </p>
-                <button>
+                <div className="messageAlign">
+                    <button>
 
-                </button>
-                <button>
-                    
-                </button>
+                    </button>
+                    <button>
+
+                    </button>
+                </div>
             </div>
         </>
     )
