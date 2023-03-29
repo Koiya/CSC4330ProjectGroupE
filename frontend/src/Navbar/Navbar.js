@@ -7,6 +7,8 @@ export default function Navbar(){
         <PageLink to="/">Home</PageLink>
         <PageLink to="/FindATutor">Find A Tutor</PageLink>
         <PageLink to="/Notifications">Notifications</PageLink>
+        <PageLink to="/Login">Login</PageLink>
+        <PageLink to="/Registration">Registration</PageLink>
       </ul>
       <ul>
         <PageLink to="/ProfileSettings">Profile Settings</PageLink>
