@@ -7,18 +7,36 @@ export default function Home() {
                 <div>
                     <h2> Upcoming Appointments: </h2>
                 </div>
-                    <hr style={{
+                    {/* <hr style={{
                         backgroundColor: "#282c34",
                         height: "3px",
                         border: "none",
                         display: "flex",
-                        marginTop: "300px",
+                        marginTop: "400px",
                         }}
-                    />
-                <div>
-                    <h3> Previous Tutor: </h3>
-                        <StarRating/>
-                </div>
+                    /> */}
+            </div>
+            <div className="backgroundRating">
+                    <h2> Previous Tutor: </h2>
+                    <div className="textAlign">
+                        <p>
+                            Going to display the previous tutor's information here
+                        </p>
+                        <div>
+                            <StarRating/>
+                        </div>
+                    </div>
+            </div>
+            <div className="backgroundNoty">
+                    <h2> Notifications: </h2>
+                    <div className="textAlign">
+                        <p>
+                            Going to display the recent notifications here
+                        </p>
+                        <div>
+                           
+                        </div>
+                    </div>
             </div>
         </>
     )

@@ -1,14 +1,35 @@
 .backgroundSize {
-    height: 700px;
-    width: 700px;
-    margin: auto;
-    width: 50%;
-    border: 3px solid #282c34;
-    padding: 10px;
+    height: 750px;
+    width: 55%;
+    border: 5px solid #282c34;
+    padding: 20px;
     margin-top: 10px;
     text-align: left;
     border-radius: 50px 50px 50px 50px;
+    float: left;
  }
+
+ .backgroundRating {
+   height: 350px;
+   width: 44%;
+   border: 5px solid #282c34;
+   padding: 20px;
+   margin-top: 10px;
+   text-align: left;
+   border-radius: 50px 50px 50px 50px;
+   float: right;
+}
+
+.backgroundNoty {
+   height: 390px;
+   width: 44%;
+   border: 5px solid #282c34;
+   padding: 20px;
+   margin-top: 10px;
+   text-align: left;
+   border-radius: 50px 50px 50px 50px;
+   float: right;
+}
 
  .starButton {
    background-color: transparent;
@@ -21,4 +42,8 @@
  }
  .off {
    color: #777;
+ }
+
+ .textAlign {
+   text-align: center;
  }
