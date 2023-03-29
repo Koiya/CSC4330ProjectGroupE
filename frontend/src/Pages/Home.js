@@ -1,10 +1,8 @@
-import SearchBar from "../SearchBar/SearchBar";
 import StarRating from "../StarRating/StarRating";
 
 export default function Home() {
     return (
         <>
-            <SearchBar/>
             <div className="backgroundSize">
                 <div>
                     <h2> Upcoming Appointments: </h2>
