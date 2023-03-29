@@ -13,9 +13,9 @@ export default function ProfileSettings() {
     }
 
     return (
-        <div className="auth-form-container">
+        <div className="auth-form-container2">
           <form className="registration-form" onSubmit={handleSubmit}>
-                <img src={johnsmith} className="profilepic" />
+                <img src={johnsmith} className="profilepic" alt="img"/>
                 <label>Edit Name</label>
                 <input value={name} onChange={(e) => setName(e.target.value)} id="name" placeholder="John Smith" />
                 <label for="Change email">Email</label>
