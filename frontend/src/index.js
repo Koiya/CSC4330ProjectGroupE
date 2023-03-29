@@ -7,7 +7,6 @@ import {BrowserRouter} from "react-router-dom";
 //Styles
 import './index.css';
 import './Styles/NavbarStyle.css';
-import './Styles/NotificationStyle.css';
 import './Styles/style.css';
 import './Styles/SearchBarStyle.css'
 

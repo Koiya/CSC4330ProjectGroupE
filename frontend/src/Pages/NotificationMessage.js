@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Notifications() {
+    const navigate = useNavigate();
+
+    const navigateToNotifications = () => {
+      navigate('/Notifications');
+    };
+
     return (
         <>
             <div className="messages">
@@ -11,12 +19,12 @@ export default function Notifications() {
                 <p className="messageText">
                     for this subject
                 </p>
-                <div className="messageAlign">
-                    <button>
-
+                <div>
+                    <button className="messageTextSpace" onClick={navigateToNotifications}>
+                        Accept
                     </button>
-                    <button>
-
+                    <button className="messageTextSpace" onClick={''}>
+                        Decline
                     </button>
                 </div>
             </div>
