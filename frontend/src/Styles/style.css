@@ -7,4 +7,16 @@
     padding: 10px;
     margin-top: 10px;
  }
- 
+
+ .starButton {
+   background-color: transparent;
+   border: none;
+   outline: none;
+   cursor: pointer;
+ }
+ .on {
+   color: gold;
+ }
+ .off {
+   color: #ccc;
+ }

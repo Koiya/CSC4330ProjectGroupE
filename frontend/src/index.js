@@ -8,7 +8,7 @@ import {BrowserRouter} from "react-router-dom";
 import './index.css';
 import './Styles/NavbarStyle.css';
 import './Styles/NotificationStyle.css';
-import './Styles/HomeStyle.css';
+import './Styles/style.css';
 import './Styles/SearchBarStyle.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
