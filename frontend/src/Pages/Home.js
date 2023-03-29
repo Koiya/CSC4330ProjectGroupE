@@ -7,24 +7,19 @@ export default function Home() {
             <SearchBar/>
             <div className="backgroundSize">
                 <div>
-                    test
+                    <h2> Upcoming Appointments: </h2>
                 </div>
                     <hr style={{
                         backgroundColor: "#282c34",
                         height: "3px",
                         border: "none",
-                        justifyContent: "center",
-                        alignItems: "center",
                         display: "flex",
-                        marginTop: "350px",
+                        marginTop: "300px",
                         }}
                     />
                 <div>
                     <h3> Previous Tutor: </h3>
                         <StarRating/>
-                    <p>
-                    
-                    </p>
                 </div>
             </div>
         </>
