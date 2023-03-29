@@ -1,0 +1,145 @@
+.backgroundSize {
+    height: 750px;
+    width: 55%;
+    border: 2px solid #282c34;
+    padding: 20px;
+    margin-top: 10px;
+    text-align: left;
+    border-radius: 50px 50px 50px 50px;
+    float: left;
+    overflow: scroll;
+ }
+
+ .backgroundRating {
+   height: 350px;
+   width: 44%;
+   border: 2px solid #282c34;
+   padding: 20px;
+   margin-top: 10px;
+   text-align: left;
+   border-radius: 50px 50px 50px 50px;
+   float: right;
+   overflow: scroll;
+}
+
+.backgroundNoty {
+   height: 390px;
+   width: 44%;
+   border: 2px solid #282c34;
+   padding: 20px;
+   margin-top: 10px;
+   text-align: left;
+   border-radius: 50px 50px 50px 50px;
+   float: right;
+   overflow: scroll;
+}
+
+.backgroundNotyPage {
+   height: 750px;
+   width: 55%;
+   border: 2px solid #282c34;
+   padding: 20px;
+   text-align: left;
+   border-radius: 50px 50px 50px 50px;
+   overflow: scroll;
+   margin: auto;
+}
+
+.backgroundFindTutor {
+   height: 750px;
+   width: 55%;
+   border: 2px solid #282c34;
+   padding: 20px;
+   text-align: left;
+   border-radius: 50px 50px 50px 50px;
+   overflow: scroll;
+   margin: auto;
+   margin-top: 10px;
+}
+
+.styling {
+   height: 30px;
+   width: 20%;
+   border: 2px solid #282c34;
+   padding: 20px;
+   border-radius: 50px 50px 50px 50px;
+   text-align: center;
+   margin-top: 10px;
+}
+
+.tutorStyling {
+   text-align: right;
+   margin-top: 10px;
+}
+
+ .starButton {
+   background-color: transparent;
+   border: none;
+   outline: none;
+   cursor: pointer;
+ }
+ .on {
+   color: goldenrod;
+ }
+ .off {
+   color: #777;
+ }
+
+ .textAlign {
+   text-align: center;
+ }
+
+ .textAlignTitle {
+   text-align: left;
+ }
+
+ table {
+   border-collapse: collapse;
+   border-spacing: 0;
+   width: 100%;
+ }
+ 
+ th, td {
+   text-align: left;
+   padding: 16px;
+ }
+ 
+ tr:nth-child(even) {
+   background-color: #f2f2f2;
+ }
+
+ tr:nth-child(odd) {
+   background-color: #777377;
+ }
+
+ body {
+   background:#eeeeee;
+   overflow: scroll;
+ }
+ 
+ .theBox {
+   width: 300;
+   height: 104;
+   padding: 10px 10px;
+   margin: auto;
+   background: rgba(255,255,255,0.6);
+   box-shadow: 0 3px 8px 0 rgba(0,0,0,0.2);
+   border-radius: 4px;
+   margin: 15px;
+   position: auto;
+ }
+ 
+ .theBox:hover {
+   background: rgba(255,255,255,1);
+   box-shadow: 0 3px 16px 0 rgba(0,0,0,0.03);
+   transform: scale(1.02, 1.02);
+   cursor: pointer;
+ }
+ 
+ .notificationList {
+   margin: auto;
+   width: 450px;
+   position: relative;
+
+ }
+ 

@@ -12,7 +12,7 @@ export default function Navbar(){
       </ul>
       <ul>
         <PageLink to="/ProfileSettings">Profile Settings</PageLink>
-        <PageLink to="/LogOut">Log Out</PageLink>
+        <button className="button">Log Out</button>
       </ul>
     </nav>
   )
@@ -29,3 +29,4 @@ function PageLink({to, children, ...props}) {
     </li>
   )
 }
+
