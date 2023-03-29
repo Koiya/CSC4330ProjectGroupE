@@ -45,6 +45,17 @@
    margin: auto;
 }
 
+.messages {
+   height: 500px;
+   width: 40%;
+   border: 2px solid #282c34;
+   padding: 20px;
+   text-align: center;
+   border-radius: 50px 50px 50px 50px;
+   margin: auto;
+   margin-top: 50px;
+}
+
 .backgroundFindTutor {
    height: 750px;
    width: 55%;
@@ -140,6 +151,10 @@
    margin: auto;
    width: 450px;
    position: relative;
+ }
 
+ .messageText {
+   font-size: large;
+   font-weight: bold;
  }
  
