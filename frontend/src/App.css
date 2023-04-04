@@ -2,6 +2,63 @@
   text-align: center;
 }
 
+.profilepic {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+}
+
+.auth-form-container {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  background-image: linear-gradient(79deg, #394356,#394356);
+}
+
+.auth-form-container2 {
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+  background-image: linear-gradient(79deg, #eeeeee,#eeeeee);
+}
+
+.login-form, .registration-form {
+  display: flex;
+  flex-direction: column;
+}
+
+ .theLabel {
+  text-align: left;
+  padding: 0.25rem 0;
+  border-radius: 10px;
+}
+
+.theInput {
+  margin: 0.5rem 0;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+}
+
+.theButton {
+  border: none;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer; 
+} 
+
+.link-btn {
+  background: none;
+  color: white;
+  text-decoration: underline;
+  margin-top: 10px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +92,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.container {
+  margin: 1rem;
+  text-align: center;
 }
