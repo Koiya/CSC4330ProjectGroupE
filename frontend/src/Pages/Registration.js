@@ -15,11 +15,11 @@ export default function Registration() {
     const navigate = useNavigate();
 
     const navigateToLogin = () => {
-        navigate('/Login');
+        navigate('/');
     };
 
     const navigateToHome = () => {
-        navigate('/');
+        navigate('/Home');
     };
 
     return (

@@ -18,7 +18,7 @@ export default function Login() {
     };
 
     const navigateToHome = () => {
-        navigate('/');
+        navigate('/Home');
     };
     
     return (

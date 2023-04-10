@@ -21,12 +21,12 @@ function App() {
       <Navbar/>
       <div className="container">
        <Routes>
-          <Route path="/" element={<Home/>} />
+          <Route path="/Home" element={<Home/>} />
           <Route path="/FindATutor" element={<FindATutor/>} />
           <Route path="/ProfileSettings" element={<ProfileSettings/>} />
           <Route path="/Notifications" element={<Notifications/>} />
           <Route path="/NotificationMessage" element={<NotificationMessage/>} />
-          <Route path="/Login" element={<Login/>} />
+          <Route path="/" element={<Login/>} />
           <Route path="/Registration" element={<Registration/>} />
        </Routes>
       </div>
