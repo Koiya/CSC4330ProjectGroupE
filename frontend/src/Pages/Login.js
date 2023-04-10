@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -9,6 +10,12 @@ export default function Login() {
         console.log(email);
 
     }
+
+    const navigate = useNavigate();
+
+    const navigateToRegistration = () => {
+        navigate('/Registration');
+    };
     
     return (
         <div className="auth-form-container">
@@ -19,7 +26,7 @@ export default function Login() {
              <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
              <button className="theButton" type="submit">Log In</button>
              </form>
-             <button className="link-btn">Don't have an account? Register here.</button>
+             <button className="link-btn" onClick={navigateToRegistration}>Don't have an account? Register here.</button>
              <button className="link-btn">Forgot Password?</button>
         </div>
     )
