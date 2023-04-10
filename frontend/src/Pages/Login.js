@@ -16,6 +16,10 @@ export default function Login() {
     const navigateToRegistration = () => {
         navigate('/Registration');
     };
+
+    const navigateToHome = () => {
+        navigate('/');
+    };
     
     return (
         <div className="auth-form-container">
@@ -24,7 +28,7 @@ export default function Login() {
              <input className="theInput" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@mail.com" id="email" name="email"/>
              <label className="theLabel" for="password">Password</label>
              <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
-             <button className="theButton" type="submit">Log In</button>
+             <button className="theButton" type="submit" onClick={navigateToHome}>Log In</button>
              </form>
              <button className="link-btn" onClick={navigateToRegistration}>Don't have an account? Register here.</button>
              <button className="link-btn">Forgot Password?</button>

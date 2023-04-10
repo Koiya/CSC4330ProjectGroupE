@@ -18,6 +18,10 @@ export default function Registration() {
         navigate('/Login');
     };
 
+    const navigateToHome = () => {
+        navigate('/');
+    };
+
     return (
         <div className="auth-form-container">
           <form className="registration-form" onSubmit={handleSubmit}>
@@ -29,7 +33,7 @@ export default function Registration() {
                 <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
                 <label className="theLabel">Confirm Password</label>
                 <input className="theInput" value={pass} id="confirmpass" placeholder="Confirm Password" />
-                <button className="theButton" type="submit">Register</button>
+                <button className="theButton" type="submit" onClick={navigateToHome}>Register</button>
           </form>
                   <button className="link-btn" onClick={navigateToLogin}>Already have an account? Login here.</button>
         </div>
