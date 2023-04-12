@@ -1,11 +1,12 @@
 import React, { useState } from "react";
+import Axios from 'axios';
 
 export default function Registration() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
 
-/*
+
     const register = () => {
         Axios.post("URL", {
             fullName:name,
@@ -14,7 +15,7 @@ export default function Registration() {
         }).then( (response) => {
             console.log(response);
         });
-    };*/
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(email);

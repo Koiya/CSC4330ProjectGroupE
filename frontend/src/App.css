@@ -14,7 +14,7 @@
   flex-direction: column;
   min-height: 100vh;
   align-items: center;
-  background-image: linear-gradient(79deg, #394356,#394356);
+  background-image: linear-gradient(79deg, #282c34,#282c34);
 }
 
 .auth-form-container2 {
@@ -31,7 +31,14 @@
   flex-direction: column;
 }
 
- .theLabel {
+.theLabel {
+  text-align: left;
+  padding: 0.25rem 0;
+  border-radius: 10px;
+  color: white;
+}
+
+.theLabel2 {
   text-align: left;
   padding: 0.25rem 0;
   border-radius: 10px;
@@ -49,8 +56,8 @@
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  cursor: pointer; 
-} 
+  cursor: pointer;
+}
 
 .link-btn {
   background: none;
