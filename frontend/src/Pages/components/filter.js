@@ -1,5 +1,5 @@
 import React from 'react';
-import './filter.css';
+import '../../Styles/filter.css';
 /*
 * Filters
 *  Checkbox
@@ -33,7 +33,7 @@ export const Filter = ({searchInput, boxInput}) => {
     );*/
     return(
         <div id="filter-component">
-            <h1>Filter</h1>
+            <h1>Search</h1>
             <input
                 type="text"
                 id="filter-text-box"

@@ -1,5 +1,5 @@
 const SearchBar = () => (
-    <form action="/" method="get">
+    <form action="/frontend/src/Pages" method="get">
         <input
             type="text"
             id="header-search"
