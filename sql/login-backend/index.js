@@ -1,15 +1,16 @@
 const express = require("express");
 const mysql = require("mysql");
 const app = express();
+require("dotenv").config();
 
 app.use(express.json());
 
 const db = mysql.createConnection({
-    host     : "groupe4330.cpu1s6muiayj.us-east-2.rds.amazonaws.com",
-    user     : "admin",
-    password : "1!p*sMr44",
-    port     : 3306,
-    database: "TutoringSystem"
+    host     : process.env.HOST,
+    user     : process.env.USER,
+    password : process.env.PASSWORD,
+    port     : process.env.PORT,
+    database: process.env.DB
   });
 
 app.post('/register',(req,res)=>{
@@ -45,13 +46,3 @@ app.post('/login', (req,res) =>{
 app.listen(3001, () => {
     console.log("Running server");
 })
-
-/*const register = () => {
-    Axios.post("URL", {
-        fullName:name,
-        username:email,
-        password:pass,
-    }).then( (response) => {
-        console.log(response);
-    });
-};*/
