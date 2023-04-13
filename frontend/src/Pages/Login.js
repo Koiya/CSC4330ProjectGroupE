@@ -6,7 +6,7 @@ export default function Login() {
     const [pass, setPass] = useState('');
 
     const login = () => {
-        Axios.post("URL", {
+        Axios.post("https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/login", {
             username:email,
             password:pass,
         }).then( (response) => {

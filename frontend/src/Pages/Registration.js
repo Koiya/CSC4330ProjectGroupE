@@ -8,7 +8,7 @@ export default function Registration() {
 
 
     const register = () => {
-        Axios.post("URL", {
+        Axios.post("https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/register", {
             fullName:name,
             username:email,
             password:pass,
