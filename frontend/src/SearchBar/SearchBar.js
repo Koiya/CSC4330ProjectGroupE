@@ -1,12 +1,23 @@
+import { 
+    TextField,
+    Button,
+    Grid,
+} from "@material-ui/core";
+
 const SearchBar = () => (
     <form action="/" method="get">
-        <input
-            type="text"
-            id="header-search"
-            placeholder="Look For Tutors"
-            className="searchBar"
-        />
-        <button className="searchBarButton" type="submit">Search</button>
+        <Grid container spacing={10}>
+            <Grid item xs={8}>
+                <TextField
+                    type="text"
+                    placeholder="Look For Tutors"
+                    variant="outlined"
+                />
+            </Grid>
+            <Grid item xs={2}>
+                <Button variant="outlined">Search</Button>
+            </Grid>
+        </Grid>
     </form>
 );
 
