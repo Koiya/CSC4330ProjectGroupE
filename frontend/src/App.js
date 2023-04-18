@@ -1,14 +1,15 @@
 import './App.css';
-import Navbar from './Navbar/Navbar';
-import FindATutor from './Pages/FindATutor';
-import Home from './Pages/Home';
-import Notifications from './Pages/Notifications';
-import NotificationMessage from './Pages/NotificationMessage';
-import ProfileSettings from './Pages/ProfileSettings';
-import Login from './Pages/Login';
-import Registration from './Pages/Registration';
+import {
+    Navbar,
+    FindATutor,
+    Home,
+    Notifications,
+    NotificationMessage,
+    ProfileSettings,
+    Login,
+    Registration
+} from './Pages'
 import {Route, Routes} from "react-router-dom";
-
 function App() {
   // const [currentForm, setCurrentForm] = useState('login');
 
@@ -16,18 +17,21 @@ function App() {
   //   setCurrentForm(formName);
   // }
 
+    fetch(URL)
+        .then( response => console.log(response) )
+
   return (
-    <>
+      <>
       <Navbar/>
       <div className="container">
        <Routes>
-          <Route path="/Home" element={<Home/>} />
+          <Route path="/" element={<Home/>} />
           <Route path="/FindATutor" element={<FindATutor/>} />
           <Route path="/ProfileSettings" element={<ProfileSettings/>} />
           <Route path="/Notifications" element={<Notifications/>} />
           <Route path="/NotificationMessage" element={<NotificationMessage/>} />
-          <Route path="/" element={<Login/>} />
-          <Route path="/Registration" element={<Registration/>} />
+          <Route path="/login" element={<Login/>} />
+          <Route path="/register" element={<Registration/>} />
        </Routes>
       </div>
     </>
