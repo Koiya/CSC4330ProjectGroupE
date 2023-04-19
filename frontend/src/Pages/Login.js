@@ -4,19 +4,17 @@ import Axios from "axios";
 export default function Login() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-
-    const login = () => {
-        Axios.post("https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/login", {
-            username:email,
-            password:pass,
-        }).then( (response) => {
-            console.log(response);
-        });
-    };
+    const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/login";
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
-
+        const requestBody = {
+            email:email,
+            password:pass,
+        }
+        Axios.post(URL,requestBody)
+            .then( (response) => {
+            console.log(response);
+        });
     }
     
     return (
