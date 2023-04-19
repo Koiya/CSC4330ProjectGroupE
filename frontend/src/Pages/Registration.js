@@ -5,13 +5,14 @@ export default function Registration() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
-
+    const [role, setRole] = useState('');
 
     const register = () => {
         Axios.post("https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/register", {
             fullName:name,
             username:email,
             password:pass,
+            role:role,
         }).then( (response) => {
             console.log(response);
         });
@@ -32,7 +33,7 @@ export default function Registration() {
                 <label className="theLabel" for="password">Password</label>
                 <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
                 <label className="theLabel">Confirm Password</label>
-                <input className="theInput" value={pass} id="confirmpass" placeholder="Confirm Password" />
+                <input className="theInput" value={pass} id="confirmPass" placeholder="Confirm Password" />
                 <button className="theButton" type="submit" onClick>Register</button>
           </form>
                   <button className="link-btn">Already have an account? Login here.</button>
