@@ -1,48 +1,49 @@
-const express = require("express");
-const mysql = require("mysql");
-const app = express();
-require("dotenv").config();
+const mysql = require('mysql');
+const {response} = require("express");
 
-app.use(express.json());
-
-const db = mysql.createConnection({
+const connection = mysql.createConnection({
     host     : process.env.HOST,
     user     : process.env.USER,
     password : process.env.PASSWORD,
     port     : process.env.PORT,
     database: process.env.DB
-  });
-
-app.post('/register',(req,res)=>{
-    const username = req.body.username
-    const password = req.body.password
-
-    db.query("INSERT INTO AccountInfo (username,password) VALUES (?,?)", 
-    [username, password], 
-    (err,result) =>{
-        console.log(err);
-    });
 });
 
-app.post('/login', (req,res) =>{
-    const username = req.body.username
-    const password = req.body.password
-
-    db.query("SELECT * FROM AccountInfo WHERE username = ? AND password = ?", 
-    [username, password], 
-    (err,result) =>{
-        if(err) {
-            res.send({err:err});
-        }
-        if (result){
-            res.send(result);
-        } else {
-            res.send({message:"Wrong username/password"});
-        }
+exports.handler = async (event) => {
+    let response;
+    switch(true){
+        case event.httpMethod === 'POST' && event.path === '/register':
+            const registerBody = JSON.parse(event.body);
+            response = buildResponse('200');
+            connection.query(`INSERT INTO TutoringSystem.AccountInfo (email, password) VALUES ('${registerBody.email}', '${registerBody.password}')`
+                , (err, result) => {
+                if(err){
+                    console.log(err);
+                }
+            }
+            break;
+        case event.httpMethod === 'POST' && event.path === '/login':
+            return new Promise((resolve, reject) => {
+                connection.query(`SELECT * FROM TutoringSystem.AccountInfo WHERE email = '${username}' AND password = '${password}'`, (error, results) => {
+                    if (error) {
+                        reject(error);
+                    } else {
+                        console.log(event);
+                        resolve(results.length > 0 ? { success: true } : { success: false });
+                    }
+                });
+            });
     }
-    );
-})
 
-app.listen(3001, () => {
-    console.log("Running server");
-})
+};
+function buildResponse(statusCode,body){
+    return{
+        statusCode: statusCode,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    }
+
+}

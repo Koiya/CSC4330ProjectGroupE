@@ -6,21 +6,26 @@ export default function Registration() {
     const [pass, setPass] = useState('');
     const [name, setName] = useState('');
     const [role, setRole] = useState('');
-
-    const register = () => {
-        Axios.post("https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/register", {
-            fullName:name,
-            username:email,
-            password:pass,
-            role:role,
-        }).then( (response) => {
-            console.log(response);
-        });
-    };
+    const [message, setMessage] = useState('');
+    const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/register";
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
-
+        if(name.trim() === '' || email.trim() === ''|| pass.trim() === ''){
+            setMessage('All fields are required');
+            return;
+        }
+        const requestBody = {
+            name:name,
+            email:email,
+            password:pass,
+        }
+        Axios.post(URL,requestBody)
+            .then( (response) => {
+            setMessage('Registration Successful')
+            console.log(response);
+        }).catch(error=>{
+            setMessage('Something is wrong with login server');
+        });
     }
 
     return (
@@ -34,9 +39,10 @@ export default function Registration() {
                 <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
                 <label className="theLabel">Confirm Password</label>
                 <input className="theInput" value={pass} id="confirmPass" placeholder="Confirm Password" />
-                <button className="theButton" type="submit" onClick>Register</button>
+                <button className="theButton" type="submit" >Register</button>
           </form>
-                  <button className="link-btn">Already have an account? Login here.</button>
+            <button className="link-btn">Already have an account? Login here.</button>
+            {message && <p className="message"> {message}</p>}
         </div>
     )
 }
