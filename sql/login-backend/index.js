@@ -13,7 +13,7 @@ exports.handler = async (event) => {
         case event['httpMethod'] === 'POST' && event['path'] === '/register':
             const registerBody = JSON.parse(event.body);
             return new Promise((resolve,reject) => {
-                connection.query(`INSERT INTO TutoringSystem.AccountInfo (email, password) VALUES ('${registerBody.email}', '${registerBody.password}')`
+                connection.query(`INSERT INTO TutoringSystem.AccountInfo (name, email, password, role) VALUES ('${registerBody.name}', '${registerBody.email}', '${registerBody.password}', '${registerBody.role}')`
                     , (err, result) => {
                         if (err) {
                             reject(buildResponse('404',"Error with registering"));
