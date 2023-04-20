@@ -4,6 +4,7 @@ import Axios from "axios";
 export default function Login() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
+    const [loginStatus, setLoginStatus] = useState('');
     const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/login";
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -13,12 +14,17 @@ export default function Login() {
         }
         Axios.post(URL,requestBody)
             .then( (response) => {
-            console.log(response);
+                if (response.data[0].email === email && response.data[0].password === pass){
+                    setLoginStatus("Logged in")
+                }else{
+                    setLoginStatus(response.data)
+                }
         });
     }
     
     return (
         <div className="auth-form-container">
+            <h1>{loginStatus}</h1>
             <form className="login-form" onSubmit={handleSubmit}>
                 <label className="theLabel" for="email">Email</label>
                 <input className="theInput" value={email}

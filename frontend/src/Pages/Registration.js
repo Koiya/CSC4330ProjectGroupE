@@ -18,12 +18,14 @@ export default function Registration() {
             name:name,
             email:email,
             password:pass,
+            role:role,
         }
         Axios.post(URL,requestBody)
             .then( (response) => {
             setMessage('Registration Successful')
-            console.log(response);
+            console.log(response.data);
         }).catch(error=>{
+            console.log(requestBody);
             setMessage('Something is wrong with login server');
         });
     }
@@ -37,8 +39,24 @@ export default function Registration() {
                 <input className="theInput" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@mail.com" id="email" name="email"/>
                 <label className="theLabel" for="password">Password</label>
                 <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
-                <label className="theLabel">Confirm Password</label>
-                <input className="theInput" value={pass} id="confirmPass" placeholder="Confirm Password" />
+                <label className="theLabel">Select Role</label>
+                  <input
+                      style={{float:"left", position:"relative"}}
+                      name="field"
+                      type='radio'
+                      value="tutor"
+                      onChange={(e) => setRole(e.target.value)}
+                  />
+                    <div>Tutor</div>
+
+                  <input
+                  style={{float:"left", position:"relative"}}
+                  name="field"
+                  type='radio'
+                  value="user"
+                  onChange={(e) => setRole(e.target.value)}
+                    />
+                <div>Student</div>
                 <button className="theButton" type="submit" >Register</button>
           </form>
             <button className="link-btn">Already have an account? Login here.</button>
