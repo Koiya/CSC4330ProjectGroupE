@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import Axios from "axios";
+import {setUserSession} from './components/auth';
 
-export default function Login() {
+const Login = (props) => {
+    let navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
     const [loginStatus, setLoginStatus] = useState('');
@@ -14,12 +17,16 @@ export default function Login() {
         }
         Axios.post(URL,requestBody)
             .then( (response) => {
-                if (response.data[0].email === email && response.data[0].password === pass){
-                    setLoginStatus("Logged in")
-                }else{
-                    setLoginStatus(response.data)
+                setUserSession(response.data.user, response.data.token);
+                setLoginStatus("Logged in");
+                navigate('/');
+            }).catch((err) =>{
+                console.log(err);
+
+                if(err.response.status === 404){
+                    setLoginStatus(err.response.data);
                 }
-        });
+            })
     }
     
     return (
@@ -46,3 +53,4 @@ export default function Login() {
         </div>
     )
 }
+export default Login;

@@ -73,7 +73,7 @@ exports.handler = async (event) => {
                             }
                             resolve(buildResponse('200',response));
                         }else{
-                            resolve(buildResponse('200',"Wrong Email/Password"))
+                            resolve(buildResponse('404',"Wrong Email/Password"))
                         }
                     });
             });
