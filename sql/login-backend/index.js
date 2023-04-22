@@ -13,10 +13,10 @@ function generateToken(userInfo) {
     if(!userInfo){
         return null;
     }
-    return jwt.sign(userInfo, process.env.TOKEN,{expiresIn:'1h'}, (err,res)=>{console.log(res)})
+    return jwt.sign(userInfo, process.env.TOKEN,{expiresIn:'1h'})
 }
 
-function verifyToken(email,token){
+function verifyToken(username,token){
     return jwt.verify (token,process.env.TOKEN,{},(err, res) =>{
         if(err){
             return{
@@ -24,7 +24,7 @@ function verifyToken(email,token){
                 message: 'Invalid token'
             }
         }
-        if (res.email !== email){
+        if (res.username !== username){
             return{
                 verified: false,
                 message: 'Invalid email'
@@ -39,7 +39,7 @@ function verifyToken(email,token){
 
 exports.handler = async (event) => {
     switch(true){
-            // REGISTER
+        // REGISTER
         case event['httpMethod'] === 'POST' && event['path'] === '/register':
             const registerBody = JSON.parse(event.body);
             return new Promise((resolve,reject) => {
@@ -52,7 +52,7 @@ exports.handler = async (event) => {
                         }
                     });
             });
-            // LOGIN
+        // LOGIN
         case event['httpMethod'] === 'POST' && event['path'] === '/login':
             const loginBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
@@ -66,14 +66,18 @@ exports.handler = async (event) => {
                                 name: loginBody.name
                             }
                             const loginToken = generateToken(userInfo);
-                            const res = Object.assign(results,loginToken)
-                            resolve(buildResponse('200',res));
+                            const response = {
+                                email: results[0].email,
+                                name: results[0].name,
+                                token: loginToken
+                            }
+                            resolve(buildResponse('200',response));
                         }else{
                             resolve(buildResponse('200',"Wrong Email/Password"))
                         }
                     });
             });
-            //GET TUTOR
+        //GET TUTOR
         case event['httpMethod'] === 'POST' && event['path'] === '/getTutor':
             return new Promise((resolve, reject) => {
                 connection.query(`SELECT * FROM TutoringSystem.TutorList`
@@ -85,14 +89,14 @@ exports.handler = async (event) => {
                         }
                     });
             });
-            //VERIFY
+        //VERIFY
         case event['httpMethod'] === 'POST' && event['path'] === '/verify':
             const verifyBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
-                if (verifyBody.token || !verifyBody.email){
+                if (!verifyBody.token || !verifyBody.username || !verifyBody.name){
                     resolve(buildResponse('403',"Invalid body"))
                 }
-                const verification = verifyToken(verifyBody.email, verifyBody.token);
+                const verification = verifyToken(verifyBody.username, verifyBody.token);
                 if (!verification.verified){
                     resolve(buildResponse('401',verification));
                 }
@@ -100,7 +104,7 @@ exports.handler = async (event) => {
                     {
                         verified:true,
                         message:'Success',
-                        email: verifyBody.email,
+                        email: verifyBody.username,
                         token: verifyBody.token
                     }));
             });
