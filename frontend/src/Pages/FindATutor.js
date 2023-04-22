@@ -1,34 +1,45 @@
 import SearchBar from "./components/SearchBar";
 import DataTable from "./components/datatable.jsx";
-import {useMemo} from "react";
+import {useMemo, useState,useEffect} from "react";
+import Axios from "axios";
 
 export default function FindATutor() {
+    const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getTutor"
 
-    const data = [
-        { name: 'John', age: 35, email: 'john@example.com' },
-        { name: 'Jane', age: 27, email: 'jane@example.com' },
-        { name: 'Bob', age: 44, email: 'bob@example.com' },
+    /*Data format:
+    const test = [
         { name: "Joe Smith", expertise: "Math", rating: 3},
         { name: "Megan Celica", expertise: "Biology", rating: 4},
         { name: "Bob Celica", expertise: "English", rating: 5}
     ];
+    */
+    const [data,setData] = useState([]);
+    useEffect(() =>  {
+        (async () => {
+            Axios.post(URL).then((response) => {
+                setData(response.data);
+                console.log(response.data);
+            });
+        })();
+        }, []);
+
     const columns = useMemo(
         () => [
             {
                 Header: 'Name',
-                accessor: 'name'
+                accessor: 'tutorName'
             },
             {
                 Header: 'Expertise',
-                accessor: 'expertise'
+                accessor: 'tutorExpertise'
             },
             {
                 Header: 'Rating',
-                accessor: 'rating'
+                accessor: 'tutorRating'
             },
             {
                 Header:'Availability',
-                accessor:'availability'
+                accessor:'tutorTime'
             },
             {
                 accessor:'request',

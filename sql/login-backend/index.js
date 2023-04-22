@@ -8,7 +8,6 @@ const connection = mysql.createConnection({
     database: process.env.DB
 });
 exports.handler = async (event) => {
-    let response;
     switch(true){
         case event['httpMethod'] === 'POST' && event['path'] === '/register':
             const registerBody = JSON.parse(event.body);
@@ -33,6 +32,17 @@ exports.handler = async (event) => {
                             resolve(buildResponse('200',results));
                         }else{
                             resolve(buildResponse('200',"Wrong Email/Password"))
+                        }
+                    });
+            });
+        case event['httpMethod'] === 'POST' && event['path'] === '/getTutor':
+            return new Promise((resolve, reject) => {
+                connection.query(`SELECT * FROM TutoringSystem.TutorList`
+                    , (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(buildResponse('200',results));
                         }
                     });
             });
