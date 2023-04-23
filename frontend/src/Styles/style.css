@@ -67,7 +67,7 @@
    padding: 20px;
    text-align: left;
    border-radius: 50px 50px 50px 50px;
-   overflow: scroll;
+   overflow: hidden;
    margin: auto;
    margin-top: 10px;
 }

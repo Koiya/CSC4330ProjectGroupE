@@ -1,5 +1,6 @@
 import DataTable from "./components/datatable.jsx";
 import {useMemo, useState,useEffect} from "react";
+import {getUser} from "./components/auth.js";
 import Axios from "axios";
 
 export default function FindATutor() {
@@ -12,10 +13,19 @@ export default function FindATutor() {
         { name: "Bob Celica", expertise: "English", rating: 5}
     ];
     */
+    let requestBody = {};
+    let user = getUser();
+    if (!user || user !== 'undefined') {
+        let domain = user.split("@")[1];
+        requestBody = {
+            email: domain,
+        }
+    }
+
     const [data,setData] = useState([]);
     useEffect(() =>  {
         (async () => {
-            Axios.post(URL).then((response) => {
+            Axios.post(URL,requestBody).then((response) => {
                 setData(response.data);
                 console.log(response.data);
             });

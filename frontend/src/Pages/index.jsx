@@ -9,4 +9,5 @@ import Registration from './Registration.js';
 import {PrivateRoute, PrivateRouteRole} from './components/PrivateRoute.js'
 import PublicRoute from './components/PublicRoute.js'
 import Appointment from './appointment.js'
-export {Navbar,FindATutor,Home,Notifications,NotificationMessage,ProfileSettings,Login,Registration, PrivateRoute,PrivateRouteRole, PublicRoute, Appointment}
+import {getToken} from './components/auth'
+export {Navbar,FindATutor,Home,Notifications,NotificationMessage,ProfileSettings,Login,Registration, PrivateRoute,PrivateRouteRole, PublicRoute, Appointment,getToken}

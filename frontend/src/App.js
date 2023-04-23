@@ -26,7 +26,7 @@ function App() {
       <div className="container">
        <Routes>
            <Route path="/" element={<Home/>} />
-           <Route path="/FindATutor" element={<FindATutor/>} />
+           <Route path="/FindATutor" element={<PrivateRoute><FindATutor/></PrivateRoute>} />
            <Route path="/appointment" element={<PrivateRouteRole><Appointment/></PrivateRouteRole>} />
            <Route path="/ProfileSettings" element={<PrivateRoute><ProfileSettings/></PrivateRoute>} />
            <Route path="/Notifications" element={<PrivateRoute><Notifications/></PrivateRoute>} />

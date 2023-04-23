@@ -97,8 +97,9 @@ exports.handler = async (event) => {
             });
         //GET TUTOR
         case event['httpMethod'] === 'POST' && event['path'] === '/getTutor':
+            const userBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
-                connection.query(`SELECT * FROM TutoringSystem.TutorList`
+                connection.query(`SELECT * FROM TutoringSystem.TutorList WHERE email LIKE '%${userBody.email}%'`
                     , (err, results) => {
                         if (err) {
                             reject(err);

@@ -13,9 +13,14 @@ function UserLogin({handler}){
 
 export default function Navbar(){
     let navigate = useNavigate();
-    const logoutHandler = () => {
-        resetUserSession();
-        navigate('/');
+    const logoutHandler = async (e) => {
+        e.preventDefault();
+        try{
+            resetUserSession();
+            navigate('/login');
+        } catch(e){
+            console.log(e.message);
+        }
     }
     return (
         <nav className="nav">
