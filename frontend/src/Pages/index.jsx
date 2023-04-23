@@ -6,4 +6,6 @@ import NotificationMessage from './NotificationMessage.js';
 import ProfileSettings from './ProfileSettings.js';
 import Login from './Login.js';
 import Registration from './Registration.js';
-export {Navbar,FindATutor,Home,Notifications,NotificationMessage,ProfileSettings,Login,Registration}
+import PrivateRoute from './components/PrivateRoute.js'
+import PublicRoute from './components/PublicRoute.js'
+export {Navbar,FindATutor,Home,Notifications,NotificationMessage,ProfileSettings,Login,Registration, PrivateRoute, PublicRoute}

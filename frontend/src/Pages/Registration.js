@@ -4,18 +4,20 @@ import Axios from 'axios';
 export default function Registration() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const [name, setName] = useState('');
     const [role, setRole] = useState('');
+    const [firstName, setFirst] = useState('');
+    const [lastName, setLast] = useState('');
     const [message, setMessage] = useState('');
     const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/register";
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(name.trim() === '' || email.trim() === ''|| pass.trim() === ''){
+        if(firstName.trim() === '' || email.trim() === ''|| pass.trim() === ''){
             setMessage('All fields are required');
             return;
         }
         const requestBody = {
-            name:name,
+            first_name:firstName,
+            last_name:lastName,
             email:email,
             password:pass,
             role:role,
@@ -25,8 +27,8 @@ export default function Registration() {
             setMessage('Registration Successful')
             console.log(response.data);
         }).catch(error=>{
-            console.log(requestBody);
-            setMessage('Something is wrong with login server');
+            console.log(error);
+            setMessage(error.response.data);
         });
     }
 
@@ -34,7 +36,8 @@ export default function Registration() {
         <div className="auth-form-container">
           <form className="registration-form" onSubmit={handleSubmit}>
               <label className="theLabel">Full Name</label>
-                <input className="theInput" value={name} onChange={(e) => setName(e.target.value)} id="name" placeholder="Full Name" />
+                <input className="theInput" value={firstName} onChange={(e) => setFirst(e.target.value)} id="name" placeholder="First Name" />
+                <input className="theInput" value={lastName} onChange={(e) => setLast(e.target.value)} id="name" placeholder="Last Name" />
                 <label className="theLabel" for="email">Email</label>
                 <input className="theInput" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@mail.com" id="email" name="email"/>
                 <label className="theLabel" for="password">Password</label>
@@ -47,7 +50,7 @@ export default function Registration() {
                       value="tutor"
                       onChange={(e) => setRole(e.target.value)}
                   />
-                    <div>Tutor</div>
+                    <div style={{color:"white"}}>Tutor</div>
 
                   <input
                   style={{float:"left", position:"relative"}}
@@ -56,7 +59,7 @@ export default function Registration() {
                   value="user"
                   onChange={(e) => setRole(e.target.value)}
                     />
-                <div>Student</div>
+                <div style={{color:"white"}}>Student</div>
                 <button className="theButton" type="submit" >Register</button>
           </form>
             <button className="link-btn">Already have an account? Login here.</button>

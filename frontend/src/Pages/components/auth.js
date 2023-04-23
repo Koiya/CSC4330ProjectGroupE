@@ -1,4 +1,12 @@
 module.exports = {
+    getRole: function(){
+        const role = sessionStorage.getItem('role');
+        if(!role || role ==='undefined'){
+            return null;
+        } else{
+            return JSON.parse(role);
+        }
+    },
     getUser: function(){
     const user = sessionStorage.getItem('user');
         if(!user || user ==='undefined'){

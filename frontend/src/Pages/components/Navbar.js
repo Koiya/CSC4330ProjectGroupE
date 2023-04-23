@@ -1,18 +1,32 @@
-import {Link, useMatch, useResolvedPath} from "react-router-dom";
+import {Link, useNavigate, useMatch, useResolvedPath} from "react-router-dom";
+import {resetUserSession, getToken} from "./auth";
+
+function UserLogin({handler}){
+    const isLoggedIn = getToken();
+    if (!isLoggedIn){
+        return <><PageLink to="/register">Register</PageLink><PageLink to="/login">Login</PageLink></>
+    }
+    return <><PageLink to="/ProfileSettings">Profile Settings</PageLink>
+            <button className="button" onClick={handler}>Log Out</button>
+        </>
+}
 
 export default function Navbar(){
+    let navigate = useNavigate();
+    const logoutHandler = () => {
+        resetUserSession();
+        navigate('/');
+    }
     return (
         <nav className="nav">
             <ul>
-                <PageLink to="/Login">Login</PageLink>
                 <PageLink to="/">Home</PageLink>
                 <PageLink to="/FindATutor">Find A Tutor</PageLink>
                 <PageLink to="/Notifications">Notifications</PageLink>
                 {/* <PageLink to="/Registration">Registration</PageLink> */}
             </ul>
             <ul>
-                <PageLink to="/ProfileSettings">Profile Settings</PageLink>
-                <button className="button">Log Out</button>
+                <UserLogin handler={logoutHandler}/>
             </ul>
         </nav>
     )

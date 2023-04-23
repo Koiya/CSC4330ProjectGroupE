@@ -42,15 +42,32 @@ exports.handler = async (event) => {
         // REGISTER
         case event['httpMethod'] === 'POST' && event['path'] === '/register':
             const registerBody = JSON.parse(event.body);
-            return new Promise((resolve,reject) => {
-                connection.query(`INSERT INTO TutoringSystem.AccountInfo (name, email, password, role) VALUES ('${registerBody.name}', '${registerBody.email}', '${registerBody.password}', '${registerBody.role}')`
-                    , (err, result) => {
-                        if (err) {
-                            reject(buildResponse('404',"Error with registering"));
-                        } else {
-                            resolve(buildResponse('200',"Registered"));
-                        }
-                    });
+            return await new Promise((resolve,reject) => {
+                const findQuery = `SELECT * FROM TutoringSystem.AccountInfo WHERE email = '${registerBody.email}'`;
+                const insertQuery = `INSERT INTO TutoringSystem.AccountInfo (first_name, last_name, email, password, role) 
+                                     VALUES ('${registerBody.first_name}', '${registerBody.last_name}', '${registerBody.email}', '${registerBody.password}', '${registerBody.role}')`;
+                connection.query(findQuery, [registerBody.email], async (err,result) =>{
+                    if(err){
+                        reject(err);
+                    }
+                    if(result.length === 0) {
+                        let createUser = new Promise((resolve,reject) => {
+                            connection.query(insertQuery, (err, result) => {
+                                if (err) {
+                                    reject(err);
+                                } else {
+                                    resolve(buildResponse('200', "Registered!"));
+                                }
+                            })
+                        })
+                        let response = await createUser;
+                        resolve(response);
+                    } else if (result[0].email === registerBody.email) {
+                        resolve(buildResponse('404', "Email is already registered"));
+                    } else{
+                        resolve(buildResponse('404', "Error"));
+                    }
+                })
             });
         // LOGIN
         case event['httpMethod'] === 'POST' && event['path'] === '/login':

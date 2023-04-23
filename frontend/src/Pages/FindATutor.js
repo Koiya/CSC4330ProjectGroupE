@@ -1,4 +1,3 @@
-import SearchBar from "./components/SearchBar";
 import DataTable from "./components/datatable.jsx";
 import {useMemo, useState,useEffect} from "react";
 import Axios from "axios";
@@ -22,7 +21,6 @@ export default function FindATutor() {
             });
         })();
         }, []);
-
     const columns = useMemo(
         () => [
             {
@@ -43,8 +41,8 @@ export default function FindATutor() {
             },
             {
                 accessor:'request',
-                Cell: ({ row: { original } }) => (
-                    <button>
+                Cell: ({row}) => (
+                    <button onClick={() => {console.log(row.original.tutorName);}}>
                         Request Appointment
                     </button>),
             },
@@ -53,7 +51,6 @@ export default function FindATutor() {
     );
     return (
         <>
-        <SearchBar/>
             <div className="backgroundFindTutor">
                 <DataTable data={data} columns={columns}/>
             </div>
