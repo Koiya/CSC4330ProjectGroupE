@@ -2,13 +2,13 @@ import React from 'react';
 import {Navigate}  from 'react-router-dom';
 import {getToken,getRole} from './auth';
 
-function PrivateRouteRole({ children }) {
+export const PrivateRouteRole = ({ children }) => {
     const role = getRole();
     const auth = getToken();
-    return auth ? <>{children}</> : <Navigate to="/login" />;
+    return auth && role === 'tutor' ? <>{children}</> : <Navigate to="/login" />;
 }
-function PrivateRoute({ children }) {
+export const PrivateRoute = ({ children }) => {
     const auth = getToken();
     return auth ? <>{children}</> : <Navigate to="/login" />;
 }
-export default PrivateRoute;
+

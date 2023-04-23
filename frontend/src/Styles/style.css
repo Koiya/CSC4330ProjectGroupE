@@ -20,6 +20,7 @@
    border-radius: 50px 50px 50px 50px;
    float: right;
    overflow: scroll;
+
 }
 
 .backgroundNoty {
@@ -31,18 +32,21 @@
    text-align: left;
    border-radius: 50px 50px 50px 50px;
    float: right;
-   overflow: scroll;
+   overflow: hidden;
+
 }
 
 .backgroundNotyPage {
+    background-color: #282c34;
    height: 750px;
    width: 55%;
    border: 2px solid #282c34;
    padding: 20px;
    text-align: left;
    border-radius: 50px 50px 50px 50px;
-   overflow: scroll;
+    overflow: hidden;
    margin: auto;
+
 }
 
 .messages {

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link} from 'react-router-dom';
 import Axios from "axios";
 import {setUserSession} from './components/auth';
 
-const Login = (props) => {
+const Login = () => {
     let navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
@@ -17,7 +17,7 @@ const Login = (props) => {
         }
         Axios.post(URL,requestBody)
             .then( (response) => {
-                setUserSession(response.data.user, response.data.token);
+                setUserSession(response.data.email, response.data.token, response.data.role);
                 setLoginStatus("Logged in");
                 navigate('/');
             }).catch((err) =>{
@@ -48,8 +48,7 @@ const Login = (props) => {
                        type="password" placeholder="********" id="password" name="password"/>
                 <button className="theButton" type="submit">Log In</button>
              </form>
-             <button className="link-btn">Don't have an account? Register here.</button>
-             <button className="link-btn">Forgot Password?</button>
+            <button className="link-btn"><Link to="/register">Don't have an account? Register here.</Link></button>
         </div>
     )
 }

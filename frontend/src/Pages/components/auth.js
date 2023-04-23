@@ -8,7 +8,7 @@ module.exports = {
         }
     },
     getUser: function(){
-    const user = sessionStorage.getItem('user');
+        const user = sessionStorage.getItem('user');
         if(!user || user ==='undefined'){
             return null;
         } else{
@@ -18,12 +18,14 @@ module.exports = {
     getToken: function(){
         return sessionStorage.getItem('token');
     },
-    setUserSession: function(user, token){
+    setUserSession: function(user, token, role){
         sessionStorage.setItem('user', JSON.stringify(user));
         sessionStorage.setItem('token', token);
+        sessionStorage.setItem('role', JSON.stringify(role));
     },
     resetUserSession: function(){
         sessionStorage.removeItem('user');
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
     }
 }

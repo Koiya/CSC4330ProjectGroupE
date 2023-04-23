@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {Link} from "react-router-dom";
 import Axios from 'axios';
 
 export default function Registration() {
@@ -62,7 +63,7 @@ export default function Registration() {
                 <div style={{color:"white"}}>Student</div>
                 <button className="theButton" type="submit" >Register</button>
           </form>
-            <button className="link-btn">Already have an account? Login here.</button>
+            <button className="link-btn"><Link to="/login">Already have an account? Login here.</Link></button>
             {message && <p className="message"> {message}</p>}
         </div>
     )

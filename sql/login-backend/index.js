@@ -86,6 +86,7 @@ exports.handler = async (event) => {
                             const response = {
                                 email: results[0].email,
                                 name: results[0].name,
+                                role: results[0].role,
                                 token: loginToken
                             }
                             resolve(buildResponse('200',response));
@@ -121,7 +122,7 @@ exports.handler = async (event) => {
                     {
                         verified:true,
                         message:'Success',
-                        email: verifyBody.username,
+                        user: verifyBody.username,
                         token: verifyBody.token
                     }));
             });

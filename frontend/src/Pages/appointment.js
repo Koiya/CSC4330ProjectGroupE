@@ -1,20 +1,19 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import Axios from "axios";
-import SearchBar from "./components/SearchBar";
 import DataTable from "./components/datatable";
 
-export default function createApt() {
+export default function Appointment() {
     //const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getTutor"
 
-    /*Data format:
+    /*Data format:*/
     const test = [
         { name: "Joe Smith", expertise: "Math", rating: 3},
         { name: "Megan Celica", expertise: "Biology", rating: 4},
         { name: "Bob Celica", expertise: "English", rating: 5}
     ];
-    */
+
     const [data,setData] = useState([]);
-    useEffect(() =>  {
+    /*useEffect(() =>  {
         (async () => {
             Axios.post(URL).then((response) => {
                 setData(response.data);
@@ -22,7 +21,7 @@ export default function createApt() {
             });
         })();
     }, []);
-
+    */
     const columns = useMemo(
         () => [
             {
@@ -45,7 +44,7 @@ export default function createApt() {
                 accessor:'request',
                 Cell: ({ row: { original } }) => (
                     <button>
-                        Request Appointment
+                        Remove
                     </button>),
             },
         ],
