@@ -1,5 +1,5 @@
 import {Link, useNavigate, useMatch, useResolvedPath} from "react-router-dom";
-import {resetUserSession, getToken} from "./auth";
+import {resetUserSession, getToken, getRole} from "./auth";
 
 function UserLogin({handler}){
     const isLoggedIn = getToken();
@@ -13,11 +13,12 @@ function UserLogin({handler}){
 
 export default function Navbar(){
     let navigate = useNavigate();
+    let role = getRole();
     const logoutHandler = async (e) => {
         e.preventDefault();
         try{
             resetUserSession();
-            navigate('/login');
+            navigate(0);
         } catch(e){
             console.log(e.message);
         }
@@ -28,7 +29,7 @@ export default function Navbar(){
                 <PageLink to="/">Home</PageLink>
                 <PageLink to="/FindATutor">Find A Tutor</PageLink>
                 <PageLink to="/Notifications">Notifications</PageLink>
-                
+                {role === "tutor" ? <PageLink to="/appointment">Appointments</PageLink> : <></>}
             </ul>
             <ul>
                 <UserLogin handler={logoutHandler}/>

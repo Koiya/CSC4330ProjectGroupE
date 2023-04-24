@@ -17,7 +17,7 @@ const Login = () => {
         }
         Axios.post(URL,requestBody)
             .then( (response) => {
-                setUserSession(response.data.email, response.data.token, response.data.role);
+                setUserSession(response.data.email, response.data.token, response.data.role, response.data.name,response.data.id);
                 setLoginStatus("Logged in");
                 navigate('/');
             }).catch((err) =>{

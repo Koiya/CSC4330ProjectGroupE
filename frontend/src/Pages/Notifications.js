@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
-
+import Axios from 'axios';
 export default function Notifications() {
-
+    //const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getmessage"
     const navigate = useNavigate();
 
     const navigateToNotificationMessage = () => {
       navigate('/NotificationMessage');
     };
-
+    Axios.post();
     return (
         <>
         <h2> Notifications: </h2>

@@ -78,14 +78,16 @@ exports.handler = async (event) => {
                         if (err) {
                             reject(err);
                         } else if(results.length > 0){
+                            const name = results[0].first_name + " " + results[0].last_name
                             const userInfo = {
                                 username: loginBody.email,
-                                name: loginBody.name
+                                name: name
                             }
                             const loginToken = generateToken(userInfo);
                             const response = {
+                                id: results[0].id,
                                 email: results[0].email,
-                                name: results[0].name,
+                                name: name,
                                 role: results[0].role,
                                 token: loginToken
                             }
@@ -105,6 +107,67 @@ exports.handler = async (event) => {
                             reject(err);
                         } else {
                             resolve(buildResponse('200',results));
+                        }
+                    });
+            });
+        //GET MESSAGES
+        case event['httpMethod'] === 'POST' && event['path'] === '/getmessage':
+            const messageBody = JSON.parse(event.body);
+            return new Promise((resolve, reject) => {
+                const addMessageQuery = `INSERT INTO TutoringSystem.Messages(sender_id,receiver_id,message_type,message_time,message) 
+                                         VALUES '${messageBody.userId}', '${messageBody.tutorId}','${messageBody.expertise}', '${messageBody.time}', '${messageBody.message}'`;
+                const findMessageQuery = `SELECT * FROM TutoringSystem.Messages WHERE sender_id = '${messageBody.userId}' AND receiver_id = '${messageBody.tutorId}'`;
+                //User is requesting apt
+                if (messageBody.userRole === 'user') {
+                    connection.query(findMessageQuery,
+                        (err, results) => {
+                            if (err) {
+                                reject(err);
+                            } else if (results.length === 0 ) {
+                                resolve(buildResponse('200', "Appointment requested"));
+                            }
+                        });
+                    connection.query(addMessageQuery
+                        , (err, results) => {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve(buildResponse('200', "Appointment requested"));
+                            }
+                        });
+                }//Tutor replying
+                else if(messageBody.userRole ==='tutor'){
+
+                }
+                else{
+                    resolve(buildResponse('404',"Error"));
+                }
+            });
+            //Create APT
+        case event['httpMethod'] === 'POST' && event['path'] === '/createApt':
+            const aptBody = JSON.parse(event.body);
+            return await new Promise((resolve, reject) => {
+                const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,tutorTime) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.time}')`;
+                const findAptQuery = `SELECT * FROM TutoringSystem.TutorList WHERE tutorName = '${aptBody.name}' AND tutorTime = '${aptBody.time}'`;
+                //CHECKS IF SAME TIME
+                connection.query(findAptQuery, async (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } //IF NOT CREATE APT
+                        if(results.length === 0){
+                            let createApt = new Promise((resolve,reject) => {
+                                connection.query(createAptQuery, (err,res) => {
+                                    if (err){
+                                        reject(err);
+                                    }else {
+                                        resolve(buildResponse('200', "Appointment has been created"))
+                                    }
+                                });
+                            });
+                            let aptRes = await createApt;
+                            resolve(aptRes);
+                        }else {
+                            resolve(buildResponse('404', "Appointment cannot be created"));
                         }
                     });
             });
