@@ -1,13 +1,13 @@
 .backgroundSize {
     height: 750px;
-    width: 55%;
+    width: 50%;
     border: 2px solid #282c34;
     padding: 20px;
     margin-top: 10px;
     text-align: left;
     border-radius: 50px 50px 50px 50px;
     float: left;
-    overflow: scroll;
+    overflow: hidden;
  }
 
  .backgroundRating {
