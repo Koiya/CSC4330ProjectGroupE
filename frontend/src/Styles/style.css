@@ -144,13 +144,6 @@
    position: auto;
  }
  
- .theBox:hover {
-   background: rgba(255,255,255,1);
-   box-shadow: 0 3px 16px 0 rgba(0,0,0,0.03);
-   transform: scale(1.02, 1.02);
-   cursor: pointer;
- }
- 
  .notificationList {
    margin: auto;
    width: 450px;

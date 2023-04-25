@@ -28,8 +28,7 @@ export default function Navbar(){
             <ul>
                 <PageLink to="/">Home</PageLink>
                 <PageLink to="/FindATutor">Find A Tutor</PageLink>
-                <PageLink to="/Notifications">Notifications</PageLink>
-                {role === "tutor" ? <PageLink to="/appointment">Appointments</PageLink> : <></>}
+                {role === "tutor" ? <><PageLink to="/appointment">Appointments</PageLink> <PageLink to="/Notifications">Notifications</PageLink></>: <></>}
             </ul>
             <ul>
                 <UserLogin handler={logoutHandler}/>

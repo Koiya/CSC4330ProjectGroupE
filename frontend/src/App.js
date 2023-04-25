@@ -29,7 +29,7 @@ function App() {
            <Route path="/FindATutor" element={<PrivateRoute><FindATutor/></PrivateRoute>} />
            <Route path="/appointment" element={<PrivateRouteRole><Appointment/></PrivateRouteRole>} />
            <Route path="/ProfileSettings" element={<PrivateRoute><ProfileSettings/></PrivateRoute>} />
-           <Route path="/Notifications" element={<PrivateRoute><Notifications/></PrivateRoute>} />
+           <Route path="/Notifications" element={<PrivateRouteRole><Notifications/></PrivateRouteRole>} />
            <Route path="/NotificationMessage" element={<NotificationMessage/>} />
            <Route path="/login" element={<PublicRoute><Login/></PublicRoute>} />
            <Route path="/register" element={<PublicRoute><Registration/></PublicRoute>} />

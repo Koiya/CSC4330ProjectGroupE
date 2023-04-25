@@ -97,7 +97,7 @@ exports.handler = async (event) => {
                         }
                     });
             });
-        //GET TUTOR
+        //GET TUTOR LIST
         case event['httpMethod'] === 'POST' && event['path'] === '/getTutor':
             const userBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
@@ -110,36 +110,112 @@ exports.handler = async (event) => {
                         }
                     });
             });
+        //GET TUTOR APT LIST
+        case event['httpMethod'] === 'POST' && event['path'] === '/getTutorApt':
+            const tutorBody = JSON.parse(event.body);
+            return new Promise((resolve, reject) => {
+                connection.query(`SELECT * FROM TutoringSystem.TutorList WHERE tutorID = '${tutorBody.ID}'`
+                    , (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(buildResponse('200',results));
+                        }
+                    });
+            });
+        case event['httpMethod'] === 'POST' && event['path'] === '/getTutorApt/remove':
+            const removeBody = JSON.parse(event.body);
+            return new Promise((resolve, reject) => {
+                connection.query(`DELETE FROM TutoringSystem.TutorList WHERE tutorID = '${removeBody.tutorID}' AND id = '${removeBody.aptID}'`
+                    , (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(buildResponse('200',"Deleted"));
+                        }
+                    });
+            });
         //GET MESSAGES
         case event['httpMethod'] === 'POST' && event['path'] === '/getmessage':
             const messageBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
-                const addMessageQuery = `INSERT INTO TutoringSystem.Messages(sender_id,receiver_id,message_type,message_time,message) 
-                                         VALUES '${messageBody.userId}', '${messageBody.tutorId}','${messageBody.expertise}', '${messageBody.time}', '${messageBody.message}'`;
-                const findMessageQuery = `SELECT * FROM TutoringSystem.Messages WHERE sender_id = '${messageBody.userId}' AND receiver_id = '${messageBody.tutorId}'`;
-                //User is requesting apt
-                if (messageBody.userRole === 'user') {
-                    connection.query(findMessageQuery,
+                const findMessageQueryForTutor = `SELECT * FROM TutoringSystem.Messages WHERE receiver_id = '${messageBody.ID}'`;
+                const findMessageQueryForUser = `SELECT * FROM TutoringSystem.Messages WHERE sender_id = '${messageBody.ID}' AND status = "Pending";`;
+                //Get user appointment list
+                if (messageBody.role === 'user') {
+                    connection.query(findMessageQueryForUser,
                         (err, results) => {
                             if (err) {
                                 reject(err);
-                            } else if (results.length === 0 ) {
-                                resolve(buildResponse('200', "Appointment requested"));
                             }
+                            resolve(buildResponse('200', results));
                         });
-                    connection.query(addMessageQuery
-                        , (err, results) => {
+                }//Get tutor list
+                else if(messageBody.role ==='tutor'){
+                    connection.query(findMessageQueryForTutor,
+                        (err, results) => {
                             if (err) {
                                 reject(err);
-                            } else {
-                                resolve(buildResponse('200', "Appointment requested"));
                             }
+                            resolve(buildResponse('200', results));
                         });
-                }//Tutor replying
-                else if(messageBody.userRole ==='tutor'){
-
                 }
                 else{
+                    resolve(buildResponse('404',"Error"));
+                }
+            });
+
+        //SEND MESSAGES
+        case event['httpMethod'] === 'POST' && event['path'] === '/sendMessage':
+            const sendMessageBody = JSON.parse(event.body);
+            return await new Promise((resolve, reject) => {
+                const sendMessageQuery = `INSERT INTO TutoringSystem.Messages(sender_id,receiver_id,student_name,tutor_name,expertise,message_time,message,status) 
+                                         VALUES ('${sendMessageBody.userID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.expertise}', '${sendMessageBody.time}', '${sendMessageBody.message}', '${sendMessageBody.status}')`;
+                const findMessageQuery = `SELECT * FROM TutoringSystem.Messages 
+                                          WHERE sender_id = '${sendMessageBody.userID}' AND receiver_id = '${sendMessageBody.tutorID}' AND message_time = '${sendMessageBody.time}'`;
+                //User is requesting apt
+                if (sendMessageBody.userRole === 'user') {
+                    connection.query(findMessageQuery, async (err, results) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        if (results.length === 0 ) {
+                            let sendMessage = new Promise ((resolve,reject) =>{
+                                connection.query(sendMessageQuery, (err,res) => {
+                                    if (err) {
+                                        reject(err)
+                                    } else {
+                                        resolve(buildResponse('200', "Appointment requested"));
+                                    }
+                                })
+                            })
+                            let messageRes = await sendMessage;
+                            resolve(messageRes);
+                        } else {
+                            resolve(buildResponse('404', "Appointment cannot be requested"));
+                        }
+                    });
+                    //Tutor replying
+                }else if(sendMessageBody.role === 'tutor'){
+                    const updateMessageQuery = `UPDATE TutoringSystem.Messages SET status = '${sendMessageBody.status}' WHERE messageID = '${sendMessageBody.messageID}'`
+                    const insertAptQuery = `INSERT INTO TutoringSystem.Appointments(student_id,tutor_id,student_name,tutor_name,appointment_time,appointment_subject) 
+                                            VALUES ('${sendMessageBody.studentID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.time}','${sendMessageBody.expertise}')`
+                    connection.query(updateMessageQuery, async (err, results) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        let insertApt = new Promise ((resolve,reject) => {
+                            connection.query(insertAptQuery, (err, results) => {
+                                if (err) {
+                                    reject(err);
+                                }
+                                resolve(buildResponse('200', "Replied"))
+                            })
+                        })
+                        let insertAptRes = await insertApt;
+                        resolve(insertAptRes);
+                        })
+                }else{
                     resolve(buildResponse('404',"Error"));
                 }
             });
@@ -170,6 +246,26 @@ exports.handler = async (event) => {
                             resolve(buildResponse('404', "Appointment cannot be created"));
                         }
                     });
+            });
+            //List APT
+        case event['httpMethod'] === 'POST' && event['path'] === '/getApt':
+            const getAptBody = JSON.parse(event.body);
+            return await new Promise((resolve, reject) => {
+                //const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,tutorTime) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.time}')`;
+                let getAptList = `SELECT * FROM TutoringSystem.Appointments`;
+                if (getAptBody.role === "user") {
+                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}'`;
+                }
+                if (getAptBody.role === "tutor") {
+                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE tutor_id = '${getAptBody.ID}'`;
+                }
+                connection.query(getAptList, (err, results) => {
+                    if (err) {
+                        reject(err);
+                    }else {
+                        resolve(buildResponse('200', results));
+                    }
+                });
             });
         //VERIFY
         case event['httpMethod'] === 'POST' && event['path'] === '/verify':
