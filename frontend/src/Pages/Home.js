@@ -3,14 +3,16 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {getId, getRole, getToken} from './components/auth';
 import Axios from "axios";
 import DataTable from "./components/datatable";
+import {useNavigate} from "react-router-dom";
 
 export default function Home(){
     const [num,setNum] = useState('');
     const [data,setData] = useState([]);
-
+    let navigate = useNavigate();
     let token = getToken();
     const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getmessage"
     const getAptURL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getApt"
+    const patchAptURL = getAptURL + "/complete"
     let role = getRole();
     let ID = getId();
     let getUserBody = {
@@ -38,10 +40,11 @@ export default function Home(){
         (async () => {
             Axios.post(getAptURL,requestBody).then((response) => {
                 setData(response.data);
+                console.log(response.data);
             });
         })();
     }, []);
-    const columns = useMemo(
+    const studentCol = useMemo(
         () => [
         {
             Header: 'Student Name',
@@ -75,26 +78,37 @@ export default function Home(){
                 accessor: 'appointment_time'
             },
             {
+                Header: 'Status',
+                accessor:'status',
+                Cell: ({row}) => (
+                    <div>{row.original.status === 0 ? "Incomplete" : "Complete" }</div>
+                )
+            },
+            {
                 accessor:'request',
                 Cell: ({ row}) => (
                     <button onClick={ (e) => {
                         e.preventDefault();
+                        let time = row.original.appointment_time;
+                        time = time.replace(/:/g, "");
                         const removeBody = {
                             tutorID:row.original.tutor_id,
                             studentID:row.original.student_id,
                             tutorName:row.original.tutor_name,
-                            time:row.original.appointment_time
+                            expertise:row.original.appointment_subject,
+                            time:time,
+                            role:role
                         }
-                        console.log(removeBody)/*
-                        Axios.post(removeURL,removeBody)
+                        console.log(removeBody)
+                        Axios.post(patchAptURL,removeBody)
                             .then( (response) => {
-                                alert(response.data)
+                                console.log(response.data);
                                 navigate(0)
                             }).catch((err) =>{
-                            setMessage(err.response.data);
-                        })*/
+                            alert(err);
+                        })
                     }}>
-                        Done
+                        Done{ row.original.status === 0 && "TEST"}
                     </button>),
             },
         ],[]);
@@ -108,7 +122,7 @@ export default function Home(){
                 <div>
                     <p>Pending appointments: {num} </p>
                     <h2> Upcoming Appointments: </h2>
-                    <DataTable data={data} columns={columns}/>
+                    <DataTable data={data} columns={studentCol}/>
                 </div>
             </div>
             <div className="backgroundRating">

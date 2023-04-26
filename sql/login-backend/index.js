@@ -214,12 +214,12 @@ exports.handler = async (event) => {
                         })
                         let insertAptRes = await insertApt;
                         resolve(insertAptRes);
-                        })
+                    })
                 }else{
                     resolve(buildResponse('404',"Error"));
                 }
             });
-            //Create APT
+        //Create APT
         case event['httpMethod'] === 'POST' && event['path'] === '/createApt':
             const aptBody = JSON.parse(event.body);
             return await new Promise((resolve, reject) => {
@@ -227,34 +227,34 @@ exports.handler = async (event) => {
                 const findAptQuery = `SELECT * FROM TutoringSystem.TutorList WHERE tutorName = '${aptBody.name}' AND tutorTime = '${aptBody.time}'`;
                 //CHECKS IF SAME TIME
                 connection.query(findAptQuery, async (err, results) => {
-                        if (err) {
-                            reject(err);
-                        } //IF NOT CREATE APT
-                        if(results.length === 0){
-                            let createApt = new Promise((resolve,reject) => {
-                                connection.query(createAptQuery, (err,res) => {
-                                    if (err){
-                                        reject(err);
-                                    }else {
-                                        resolve(buildResponse('200', "Appointment has been created"))
-                                    }
-                                });
+                    if (err) {
+                        reject(err);
+                    } //IF NOT CREATE APT
+                    if(results.length === 0){
+                        let createApt = new Promise((resolve,reject) => {
+                            connection.query(createAptQuery, (err,res) => {
+                                if (err){
+                                    reject(err);
+                                }else {
+                                    resolve(buildResponse('200', "Appointment has been created"))
+                                }
                             });
-                            let aptRes = await createApt;
-                            resolve(aptRes);
-                        }else {
-                            resolve(buildResponse('404', "Appointment cannot be created"));
-                        }
-                    });
+                        });
+                        let aptRes = await createApt;
+                        resolve(aptRes);
+                    }else {
+                        resolve(buildResponse('404', "Appointment cannot be created"));
+                    }
+                });
             });
-            //List APT
+        //List APT
         case event['httpMethod'] === 'POST' && event['path'] === '/getApt':
             const getAptBody = JSON.parse(event.body);
             return await new Promise((resolve, reject) => {
                 //const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,tutorTime) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.time}')`;
                 let getAptList = `SELECT * FROM TutoringSystem.Appointments`;
                 if (getAptBody.role === "user") {
-                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}'`;
+                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}' WHERE status = 0`;
                 }
                 if (getAptBody.role === "tutor") {
                     getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE tutor_id = '${getAptBody.ID}'`;
@@ -266,6 +266,23 @@ exports.handler = async (event) => {
                         resolve(buildResponse('200', results));
                     }
                 });
+            });
+        //tutor change apt status to complete
+        case event['httpMethod'] === 'POST' && event['path'] === '/getApt/complete':
+            const aptCompleteBody = JSON.parse(event.body);
+            return await new Promise((resolve, reject) => {
+                if (aptCompleteBody.role === "tutor" || aptCompleteBody.role === "admin") {
+                    let updateAptList = `UPDATE TutoringSystem.Appointments SET status = 1 WHERE tutor_id = '${aptCompleteBody.tutorID}' AND student_id = '${aptCompleteBody.studentID}' AND appointment_time = '${aptCompleteBody.time}' AND appointment_subject = '${aptCompleteBody.expertise}'`;
+                    connection.query(updateAptList, (err, results) => {
+                        if (err) {
+                            reject(err);
+                        }else {
+                            resolve(buildResponse('200', "Appointment status changed."));
+                        }
+                    });
+                }else{
+                    reject();
+                }
             });
         //VERIFY
         case event['httpMethod'] === 'POST' && event['path'] === '/verify':
