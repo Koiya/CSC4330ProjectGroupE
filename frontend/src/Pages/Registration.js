@@ -108,7 +108,7 @@ export default function Registration() {
                 <Grid container justifyContent="center">
                     <Grid item xs={5}>
                         <FormControlLabel
-                            control={<Checkbox color="primary" checked={role === "student"} onChange={(e) => setRole(e.target.checked ? "student" : "")} />}
+                            control={<Checkbox color="primary" checked={role === "user"} onChange={(e) => setRole(e.target.checked ? "user" : "")} />}
                             label="Student"
                         />
                     </Grid>
