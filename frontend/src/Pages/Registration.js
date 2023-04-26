@@ -1,6 +1,18 @@
 import React, { useState } from "react";
 import {Link} from "react-router-dom";
 import Axios from 'axios';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme();
 
 export default function Registration() {
     const [email, setEmail] = useState('');
@@ -34,37 +46,109 @@ export default function Registration() {
     }
 
     return (
-        <div className="auth-form-container">
-          <form className="registration-form" onSubmit={handleSubmit}>
-              <label className="theLabel">Full Name</label>
-                <input className="theInput" value={firstName} onChange={(e) => setFirst(e.target.value)} id="name" placeholder="First Name" />
-                <input className="theInput" value={lastName} onChange={(e) => setLast(e.target.value)} id="name" placeholder="Last Name" />
-                <label className="theLabel" for="email">Email</label>
-                <input className="theInput" value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="youremail@mail.com" id="email" name="email"/>
-                <label className="theLabel" for="password">Password</label>
-                <input className="theInput" value={pass} onChange={(e) => setPass(e.target.value)} type="password" placeholder="********" id="password" name="password"/>
-                <label className="theLabel">Select Role</label>
-                  <input
-                      style={{float:"left", position:"relative"}}
-                      name="field"
-                      type='radio'
-                      value="tutor"
-                      onChange={(e) => setRole(e.target.value)}
-                  />
-                    <div style={{color:"white"}}>Tutor</div>
-
-                  <input
-                  style={{float:"left", position:"relative"}}
-                  name="field"
-                  type='radio'
-                  value="user"
-                  onChange={(e) => setRole(e.target.value)}
-                    />
-                <div style={{color:"white"}}>Student</div>
-                <button className="theButton" type="submit" >Register</button>
-          </form>
-            <button className="link-btn"><Link to="/login">Already have an account? Login here.</Link></button>
-            {message && <p className="message"> {message}</p>}
-        </div>
-    )
+        <ThemeProvider theme={theme}>
+  <Container component="main" maxWidth="xs">
+    <CssBaseline />
+    <Box sx={{ marginTop: 8, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Typography component="h1" variant="h5">
+        Sign Up
+      </Typography>
+      <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoComplete="given-name"
+              name="firstName"
+              required
+              fullWidth
+              id="firstName"
+              label="First Name"
+              autoFocus
+              value={firstName}
+              onChange={(e) => setFirst(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              fullWidth
+              id="lastName"
+              label="Last Name"
+              name="lastName"
+              autoComplete="family-name"
+              value={lastName}
+              onChange={(e) => setLast(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="new-password"
+              value={pass}
+              onChange={(e) => setPass(e.target.value)}
+            />
+          </Grid>
+          <Grid container justifyContent="center">
+            <Grid item xs={5}>
+              <FormControlLabel
+                control={<Checkbox value="student" color="primary" checked={role === "student"} onChange={(e) => setRole(e.target.value)} />}
+                label="Student"
+              />
+            </Grid>
+            <Grid item xs={5}>
+              <FormControlLabel
+                control={<Checkbox value="tutor" color="primary" checked={role === "tutor"} onChange={(e) => setRole(e.target.value)} />}
+                label="Tutor"
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{
+            mt: 2,
+            mb: 2,
+            backgroundColor: '#1976D2',
+            color: '#fff',
+            '&:hover': {
+              backgroundColor: '#115293',
+            },
+          }}
+        >
+          Sign Up
+        </Button>
+        <Box sx={{ mt: 2, color: '#f44336' }}>
+            {message && <p>{message}</p>}
+        </Box>
+        <Grid container justifyContent="center">
+          <Grid item>
+            <Link to="/login" variant="body2">
+              Already have an account? Sign in
+            </Link>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
+  </Container>
+</ThemeProvider>
+    );
 }

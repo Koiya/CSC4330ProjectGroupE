@@ -2,12 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, Link } from 'react-router-dom';
 import Axios from "axios";
 import { setUserSession } from './components/auth';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -44,7 +41,7 @@ const Login = () => {
   }
   
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme} loginStatus={loginStatus}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -55,10 +52,8 @@ const Login = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign In
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -85,24 +80,23 @@ const Login = () => {
               value={pass}
               onChange={(e) => setPass(e.target.value)}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                backgroundColor: '#1976D2',
+                color: '#fff',
+                '&:hover': {
+                  backgroundColor: '#115293',
+                },
+              }}
             >
               Sign In
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            <Grid container justifyContent={"center"}>
               <Grid item>
                 <Link to="/register" variant="body2">
                   {"Don't have an account? Sign Up"}
