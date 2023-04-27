@@ -28,6 +28,10 @@ export default function Registration() {
             setMessage('All fields are required');
             return;
         }
+        if (!email.endsWith('.edu')){
+            setMessage("Email must be a edu account");
+            return;
+        }
         const requestBody = {
             first_name:firstName,
             last_name:lastName,

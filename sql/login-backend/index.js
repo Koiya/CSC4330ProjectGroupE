@@ -110,6 +110,19 @@ exports.handler = async (event) => {
                         }
                     });
             });
+            //get user list
+        case event['httpMethod'] === 'POST' && event['path'] === '/getUsers':
+            return new Promise((resolve, reject) => {
+                connection.query(`SELECT * FROM TutoringSystem.AccountInfo`
+                    , (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(buildResponse('200',results));
+                        }
+                    });
+            });
+
         //GET TUTOR APT LIST
         case event['httpMethod'] === 'POST' && event['path'] === '/getTutorApt':
             const tutorBody = JSON.parse(event.body);
@@ -123,6 +136,8 @@ exports.handler = async (event) => {
                         }
                     });
             });
+
+            //Remove listing for tutor
         case event['httpMethod'] === 'POST' && event['path'] === '/getTutorApt/remove':
             const removeBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
