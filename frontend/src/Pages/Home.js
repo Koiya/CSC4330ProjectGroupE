@@ -1,9 +1,20 @@
 import StarRating from "./components/StarRating";
+import Stack from '@mui/joy/Stack';
 import React, {useEffect, useMemo, useState} from 'react';
 import {getId, getRole, getToken} from './components/auth';
 import Axios from "axios";
 import DataTable from "./components/datatable";
 import {useNavigate} from "react-router-dom";
+import {Paper} from "@mui/material";
+import { styled } from '@mui/material/styles';
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 export default function Home(){
     const [num,setNum] = useState('');
@@ -21,7 +32,7 @@ export default function Home(){
     };
     Axios.post(URL,getUserBody)
         .then( (response) => {
-            setNum(response.data.length);
+            console.log(response.data);
         }).catch((err) =>{
         console.log(err);
     })
@@ -36,6 +47,7 @@ export default function Home(){
         role: role,
         ID:ID
     }
+    console.log(requestBody);
     useEffect(() =>  {
         (async () => {
             Axios.post(getAptURL,requestBody).then((response) => {
@@ -61,7 +73,16 @@ export default function Home(){
         {
             Header: 'Availability',
             accessor: 'appointment_time'
-        }
+        },
+            {
+                accessor:'request',
+                Cell: ({ row}) => (
+                    <button onClick={ (e) => {
+                        e.preventDefault();
+                    }}>
+                        Cancel
+                    </button>),
+            },
     ],[]);
     const tutorCol= useMemo(
         () => [
@@ -118,13 +139,16 @@ export default function Home(){
                 <>
         {role === "user" ?
             <>
-            <div className="backgroundSize">
+            <div className="">
                 <div>
-                    <p>Pending appointments: {num} </p>
+                    <p>Pending appointment requests: {num} </p>
+                    <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
+                        <Item>TEST</Item>
+                    </Stack>
                     <h2> Upcoming Appointments: </h2>
                     <DataTable data={data} columns={studentCol}/>
                 </div>
-            </div>
+            </div>{/*
             <div className="backgroundRating">
                 <h2> Previous Tutor: </h2>
                     <div className="textAlign">
@@ -135,7 +159,7 @@ export default function Home(){
                             <StarRating/>
                         </div>
                     </div>
-                </div>
+                </div>*/}
             </>
             :
             <div className="backgroundSize">

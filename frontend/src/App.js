@@ -4,7 +4,7 @@ import {
     FindATutor,
     Home,
     Notifications,
-    NotificationMessage,
+    Admin,
     ProfileSettings,
     Login,
     Registration,
@@ -30,9 +30,9 @@ function App() {
            <Route path="/appointment" element={<PrivateRouteRole><Appointment/></PrivateRouteRole>} />
            <Route path="/ProfileSettings" element={<PrivateRoute><ProfileSettings/></PrivateRoute>} />
            <Route path="/Notifications" element={<PrivateRouteRole><Notifications/></PrivateRouteRole>} />
-           <Route path="/NotificationMessage" element={<NotificationMessage/>} />
            <Route path="/login" element={<PublicRoute><Login/></PublicRoute>} />
            <Route path="/register" element={<PublicRoute><Registration/></PublicRoute>} />
+           <Route path="/admin" element={<PrivateRouteRole><Admin/></PrivateRouteRole>} />
        </Routes>
       </div>
     </>

@@ -8,19 +8,13 @@ export default function Admin(){
     const [data,setData] = useState([]);
     let navigate = useNavigate();
     let token = getToken();
-    const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getUser"
+    const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getUsers"
     let role = getRole();
     let ID = getId();
     let getUserBody = {
         ID: ID,
         role: role
     };
-    Axios.post(URL,getUserBody)
-        .then( (response) => {
-            setNum(response.data.length);
-        }).catch((err) =>{
-        console.log(err);
-    })
     /*Data format:
     const test = [
         { name: "Joe Smith", expertise: "Math"},
@@ -34,7 +28,7 @@ export default function Admin(){
     }
     useEffect(() =>  {
         (async () => {
-            Axios.post(getAptURL,requestBody).then((response) => {
+            Axios.post(URL).then((response) => {
                 setData(response.data);
                 console.log(response.data);
             });
@@ -47,8 +41,12 @@ export default function Admin(){
                 accessor: 'id'
             },
             {
-                Header: 'Expertise',
-                accessor: 'first_name' + ' last_name'
+                Header: 'First Name',
+                accessor: 'first_name'
+            },
+            {
+                Header:'Last Name',
+                accessor: 'last_name'
             },
             {
                 Header: 'Email',
@@ -57,15 +55,13 @@ export default function Admin(){
             {
                 Header: 'Role',
                 accessor:'role',
-                Cell: ({row}) => (
-                    <div>{row.original.status === 0 ? "Incomplete" : "Complete" }</div>
-                )
             },
             {
                 accessor:'request',
                 Cell: ({ row}) => (
                     <button onClick={ (e) => {
                         e.preventDefault();
+                        /*
                         let time = row.original.appointment_time;
                         time = time.replace(/:/g, "");
                         const removeBody = {
@@ -83,7 +79,7 @@ export default function Admin(){
                                 navigate(0)
                             }).catch((err) =>{
                             alert(err);
-                        })
+                        })*/
                     }}>
                         Done{ row.original.status === 0 && "TEST"}
                     </button>),
@@ -91,10 +87,9 @@ export default function Admin(){
         ],[]);
     return (
         <>
-            <div className="backgroundSize">
+            <div className="auth-form-container">
                 <div>
-                    <p>Tutors Information </p>
-                    <h2> Upcoming Appointments: </h2>
+                    <h2>List of users: </h2>
                     <DataTable data={data} columns={userCol}/>
                 </div>
             </div>

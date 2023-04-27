@@ -52,6 +52,7 @@ const Login = () => {
             alignItems: 'center',
           }}
         >
+            {loginStatus && <Typography>{loginStatus}</Typography>}
           <Typography component="h1" variant="h5">
             Sign In
           </Typography>

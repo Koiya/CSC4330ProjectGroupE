@@ -269,7 +269,7 @@ exports.handler = async (event) => {
                 //const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,tutorTime) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.time}')`;
                 let getAptList = `SELECT * FROM TutoringSystem.Appointments`;
                 if (getAptBody.role === "user") {
-                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}' WHERE status = 0`;
+                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}' AND status = 0`;
                 }
                 if (getAptBody.role === "tutor") {
                     getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE tutor_id = '${getAptBody.ID}'`;

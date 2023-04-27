@@ -19,9 +19,8 @@ class BtnCellRenderer extends Component {
         )
     }
 }
-function DataTable({data, columns}) {
+function DataTable({data, columns, enableSearchBar=false}) {
     const [filterInput, setFilterInput] = useState('');
-
     const tableInstance = useTable(
         {
             columns,
@@ -43,8 +42,9 @@ function DataTable({data, columns}) {
 
     return(
         <div>
-            <input value={filterInput} onChange={handleFilterChange} placeholder="Search" />
 
+            {enableSearchBar ? <input value={filterInput} onChange={handleFilterChange} placeholder="Search" />
+                : <></>}
             <table {...getTableProps()}>
                 <thead>
                 {headerGroups.map(headerGroup => (

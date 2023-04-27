@@ -93,7 +93,7 @@ export default function FindATutor() {
     return (
         <>
             <div className="backgroundFindTutor">
-                <DataTable data={data} columns={columns}/>
+                <DataTable data={data} columns={columns} enableSearchBar={true}/>
             </div>
         </>
     )
