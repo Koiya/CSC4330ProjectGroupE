@@ -1,5 +1,6 @@
 import StarRating from "./components/StarRating";
 import Stack from '@mui/joy/Stack';
+import Button from '@mui/joy/Button';
 import React, {useEffect, useMemo, useState} from 'react';
 import {getId, getRole, getToken} from './components/auth';
 import Axios from "axios";
@@ -17,7 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function Home(){
-    const [num,setNum] = useState('');
+    const [pendingList,setPendingList] = useState([]);
     const [data,setData] = useState([]);
     let navigate = useNavigate();
     let token = getToken();
@@ -30,12 +31,17 @@ export default function Home(){
         ID: ID,
         role: role
     };
-    Axios.post(URL,getUserBody)
+    useEffect(() =>  {
+        (async () => {
+        Axios.post(URL,getUserBody)
         .then( (response) => {
-            console.log(response.data);
+            setPendingList(response.data);
+            console.log(pendingList);
         }).catch((err) =>{
         console.log(err);
-    })
+        })
+        })();
+    }, []);
     /*Data format:
     const test = [
         { name: "Joe Smith", expertise: "Math"},
@@ -47,12 +53,10 @@ export default function Home(){
         role: role,
         ID:ID
     }
-    console.log(requestBody);
     useEffect(() =>  {
         (async () => {
             Axios.post(getAptURL,requestBody).then((response) => {
                 setData(response.data);
-                console.log(response.data);
             });
         })();
     }, []);
@@ -77,11 +81,11 @@ export default function Home(){
             {
                 accessor:'request',
                 Cell: ({ row}) => (
-                    <button onClick={ (e) => {
+                    <Button onClick={ (e) => {
                         e.preventDefault();
                     }}>
                         Cancel
-                    </button>),
+                    </Button>),
             },
     ],[]);
     const tutorCol= useMemo(
@@ -102,35 +106,42 @@ export default function Home(){
                 Header: 'Status',
                 accessor:'status',
                 Cell: ({row}) => (
-                    <div>{row.original.status === 0 ? "Incomplete" : "Complete" }</div>
+                    <div>{row.original.status === 0 ? "Incomplete" : row.original.status === 1 ? "Complete" : "Canceled"}</div>
                 )
             },
             {
                 accessor:'request',
-                Cell: ({ row}) => (
-                    <button onClick={ (e) => {
-                        e.preventDefault();
-                        let time = row.original.appointment_time;
-                        time = time.replace(/:/g, "");
-                        const removeBody = {
-                            tutorID:row.original.tutor_id,
-                            studentID:row.original.student_id,
-                            tutorName:row.original.tutor_name,
-                            expertise:row.original.appointment_subject,
-                            time:time,
-                            role:role
-                        }
-                        console.log(removeBody)
-                        Axios.post(patchAptURL,removeBody)
-                            .then( (response) => {
-                                console.log(response.data);
-                                navigate(0)
-                            }).catch((err) =>{
-                            alert(err);
-                        })
-                    }}>
-                        Done{ row.original.status === 0 && "TEST"}
-                    </button>),
+                Cell:(props) => {
+                    //if apt is completed dont show button
+                    if (props.row.original.status === 1 || props.row.original.status === 2 ){
+                        return(<></>)
+                    }
+                    //else show the button
+                    else {
+                        return(
+                        <Button onClick={ (e) => {
+                            e.preventDefault();
+                            let time = props.row.original.appointment_time;
+                            time = time.replace(/:/g, "");
+                            const removeBody = {
+                                tutorID:props.row.original.tutor_id,
+                                studentID:props.row.original.student_id,
+                                tutorName:props.row.original.tutor_name,
+                                expertise:props.row.original.appointment_subject,
+                                time:time,
+                                role:role
+                            }
+                            console.log(removeBody)
+                            Axios.post(patchAptURL,removeBody)
+                                .then( (response) => {
+                                    navigate(0)
+                                }).catch((err) =>{
+                                alert(err);
+                            })
+                        }}>
+                            Done
+                        </Button>
+                )}},
             },
         ],[]);
     return (
@@ -141,11 +152,11 @@ export default function Home(){
             <>
             <div className="">
                 <div>
-                    <p>Pending appointment requests: {num} </p>
-                    <Stack spacing={{ xs: 1, sm: 2 }} direction="row" useFlexGap flexWrap="wrap">
-                        <Item>TEST</Item>
+                    <h2>Pending appointment requests </h2>
+                    <Stack spacing={{ xs: 1, sm: 2 }} sx={{ maxWidth:150 }} direction="column" useFlexGap flexWrap="wrap">
+                        {pendingList.map((item) => <Item key={item.messageID}>Tutor:{item.tutor_name} Expertise:{item.expertise} Time: {item.message_time}</Item>)}
                     </Stack>
-                    <h2> Upcoming Appointments: </h2>
+                    <h2>Appointments: </h2>
                     <DataTable data={data} columns={studentCol}/>
                 </div>
             </div>{/*

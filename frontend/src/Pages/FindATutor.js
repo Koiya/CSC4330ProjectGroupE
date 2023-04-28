@@ -31,7 +31,7 @@ export default function FindATutor() {
         (async () => {
             Axios.post(URL,requestBody).then((response) => {
                 setData(response.data);
-                console.log(response.data);
+                console.log(response.data[0]);
             });
         })();
         }, []);

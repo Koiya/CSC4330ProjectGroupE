@@ -18,7 +18,7 @@ export default function Navbar(){
         e.preventDefault();
         try{
             resetUserSession();
-            navigate(0);
+            navigate("/login");
         } catch(e){
             console.log(e.message);
         }

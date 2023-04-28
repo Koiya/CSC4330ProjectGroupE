@@ -9,9 +9,9 @@ import {
     Login,
     Registration,
     PrivateRoute,
-    PrivateRouteRole,
+    TutorRoute,
     PublicRoute,
-    Appointment
+    Appointment, AdminRoute
 } from './Pages'
 import {Route, Routes} from "react-router-dom";
 function App() {
@@ -27,12 +27,12 @@ function App() {
        <Routes>
            <Route path="/" element={<PrivateRoute><Home/></PrivateRoute>} />
            <Route path="/FindATutor" element={<PrivateRoute><FindATutor/></PrivateRoute>} />
-           <Route path="/appointment" element={<PrivateRouteRole><Appointment/></PrivateRouteRole>} />
+           <Route path="/appointment" element={<TutorRoute><Appointment/></TutorRoute>} />
            <Route path="/ProfileSettings" element={<PrivateRoute><ProfileSettings/></PrivateRoute>} />
-           <Route path="/Notifications" element={<PrivateRouteRole><Notifications/></PrivateRouteRole>} />
+           <Route path="/Notifications" element={<TutorRoute><Notifications/></TutorRoute>} />
            <Route path="/login" element={<PublicRoute><Login/></PublicRoute>} />
            <Route path="/register" element={<PublicRoute><Registration/></PublicRoute>} />
-           <Route path="/admin" element={<PrivateRouteRole><Admin/></PrivateRouteRole>} />
+           <Route path="/admin" element={<AdminRoute><Admin/></AdminRoute>} />
        </Routes>
       </div>
     </>

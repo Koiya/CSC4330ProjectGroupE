@@ -47,15 +47,26 @@ export default function Notifications() {
                                     console.log(requestBody);
                                     Axios.post(replyURL,requestBody)
                                         .then( (response) => {
+                                            navigate(0);
                                             console.log(response.data);
                                         })
                                 }}>Accept</button>
                                 <button onClick={(e)=>{
                                     const requestBody = {
-                                        role:role,
                                         messageID:item.messageID,
+                                        studentID:item.sender_id,
+                                        studentName: item.student_name,
+                                        tutorID:item.receiver_id,
+                                        tutorName: item.tutor_name,
+                                        expertise:item.expertise,
+                                        role:role,
                                         status:"Declined"
                                     }
+                                    Axios.post(replyURL,requestBody)
+                                        .then( (response) => {
+                                            navigate(0);
+                                            console.log(response.data);
+                                        })
                                     console.log(requestBody);
                                 }}>Decline</button>
                             </>
