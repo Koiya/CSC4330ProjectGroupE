@@ -1,6 +1,6 @@
 import StarRating from "./components/StarRating";
 import Stack from '@mui/joy/Stack';
-import Button from '@mui/joy/Button';
+import Button from '@mui/joy/Button'
 import React, {useEffect, useMemo, useState} from 'react';
 import {getId, getRole, getToken} from './components/auth';
 import Axios from "axios";
@@ -26,7 +26,7 @@ export default function Home(){
     let token = getToken();
     const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getmessage"
     const getAptURL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getApt"
-    const cancelURL = "";
+    const cancelURL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/sendMessage/cancel";
     const patchAptURL = getAptURL + "/complete"
     let role = getRole();
     let ID = getId();
@@ -34,12 +34,13 @@ export default function Home(){
         ID: ID,
         role: role
     };
+    //List of pending apt
     useEffect(() =>  {
         (async () => {
         Axios.post(URL,getUserBody)
         .then( (response) => {
             setPendingList(response.data);
-            console.log(pendingList);
+            //console.log(pendingList);
         }).catch((err) =>{
         console.log(err);
         })
@@ -60,6 +61,7 @@ export default function Home(){
         (async () => {
             Axios.post(getAptURL,requestBody).then((response) => {
                 setData(response.data);
+                console.log(response.data)
             });
         })();
     }, []);
@@ -88,13 +90,24 @@ export default function Home(){
             {
                 accessor:'request',
                 Cell: ({ row}) => (
-                    <Button onClick={ (e) => {
+                    <Button onClick={(e) => {
                         e.preventDefault();
+                        const requestBody = {
+                            messageID:row.original.messageID,
+                            status: "Cancelled"
+                        }
+                        console.log(requestBody);
+                        Axios.post(cancelURL,requestBody)
+                            .then((response) => {
+                                navigate(0);
+                            })
                     }}>
                         Cancel
                     </Button>),
             },
     ],[]);
+
+    //TUTOR APPOINTMENT LIST
     const tutorCol= useMemo(
         () => [
             {
@@ -130,7 +143,7 @@ export default function Home(){
                     //else show the button
                     else {
                         return(
-                        <Button onClick={ (e) => {
+                        <button onClick={ (e) => {
                             e.preventDefault();
                             let startTime = props.row.original.startTime;
                             let endTime = props.row.original.endTime;
@@ -154,7 +167,7 @@ export default function Home(){
                             })
                         }}>
                             Done
-                        </Button>
+                        </button>
                 )}},
             },
         ],[]);
@@ -175,7 +188,17 @@ export default function Home(){
                                     <ListItem><ListItemText primary="Study" secondary={item.expertise}> </ListItemText></ListItem>
                                     <ListItem><ListItemText primary="Time" secondary={item.message_time}> </ListItemText></ListItem>
                                     <ListItem><ListItemText primary="Status" secondary={item.status}> </ListItemText></ListItem>
-                                <Button>Cancel</Button>
+                                <button onClick={(item) => {
+                                    const requestBody = {
+                                        messageID: item.messageID,
+                                        status: "Cancelled"
+                                    }
+                                    console.log(requestBody);
+                                    Axios.post(cancelURL,requestBody)
+                                        .then((response) => {
+                                            navigate(0);
+                                        })
+                                }}>Cancel</button>
                                 </List>
                             </Item>)}
                     </Stack>
