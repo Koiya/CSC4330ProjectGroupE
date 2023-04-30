@@ -201,7 +201,7 @@ exports.handler = async (event) => {
                 const sendMessageQuery = `INSERT INTO TutoringSystem.Messages(sender_id,receiver_id,student_name,tutor_name,expertise,day,startTime,endTime,message,status) 
                                          VALUES ('${sendMessageBody.userID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.expertise}', '${sendMessageBody.day}','${sendMessageBody.startTime}','${sendMessageBody.endTime}', '${sendMessageBody.message}', '${sendMessageBody.status}')`;
                 const findMessageQuery = `SELECT * FROM TutoringSystem.Messages 
-                                          WHERE sender_id = '${sendMessageBody.userID}' AND receiver_id = '${sendMessageBody.tutorID}' AND startTime = '${sendMessageBody.startTime}'`;
+                                          WHERE sender_id = '${sendMessageBody.userID}' AND receiver_id = '${sendMessageBody.tutorID}' AND startTime = '${sendMessageBody.startTime}' AND status = 'Pending'`;
                 //User is requesting apt
                 if (sendMessageBody.userRole === 'user') {
                     connection.query(findMessageQuery, async (err, results) => {
@@ -226,23 +226,17 @@ exports.handler = async (event) => {
                     });
                     //Tutor replying
                 }else if(sendMessageBody.role === 'tutor'){
-                    const updateMessageQuery = `UPDATE TutoringSystem.Messages SET status = '${sendMessageBody.status}' WHERE messageID = '${sendMessageBody.messageID}'`
+                    let updateMessageQuery = `UPDATE TutoringSystem.Messages SET status = '${sendMessageBody.status}' WHERE messageID = '${sendMessageBody.messageID}';`
                     const insertAptQuery = `INSERT INTO TutoringSystem.Appointments(student_id,tutor_id,student_name,tutor_name,day,startTime,endTime,appointment_subject,messageID) 
-                                            VALUES ('${sendMessageBody.studentID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.day}','${sendMessageBody.startTime}','${sendMessageBody.endTime}','${sendMessageBody.expertise}',${sendMessageBody.messageID})`
+                                            VALUES ('${sendMessageBody.studentID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.day}','${sendMessageBody.startTime}','${sendMessageBody.endTime}','${sendMessageBody.expertise}','${sendMessageBody.messageID}')`
+                    if (sendMessageBody.status === "Accepted") {
+                        updateMessageQuery = updateMessageQuery + insertAptQuery;
+                    }
                     connection.query(updateMessageQuery, async (err, results) => {
                         if (err) {
                             reject(err);
                         }
-                        let insertApt = new Promise ((resolve,reject) => {
-                            connection.query(insertAptQuery, (err, results) => {
-                                if (err) {
-                                    reject(err);
-                                }
-                                resolve(buildResponse('200', "Replied"))
-                            })
-                        })
-                        let insertAptRes = await insertApt;
-                        resolve(insertAptRes);
+                        resolve(buildResponse('200', "Replied"))
                     })
                 }else{
                     resolve(buildResponse('404',"Error"));
@@ -282,8 +276,11 @@ exports.handler = async (event) => {
             return await new Promise((resolve, reject) => {
                 //const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,tutorTime) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.time}')`;
                 let getAptList = `SELECT * FROM TutoringSystem.Appointments`;
-                if (getAptBody.role === "user") {
+                if (getAptBody.role === "user" && getAptBody.status === 0) {
                     getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}' AND status = 0`;
+                }
+                if (getAptBody.role === "user" && getAptBody.status === 1) {
+                    getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE student_id = '${getAptBody.ID}' AND status = 1 AND gaveRating = 'Pending'`;
                 }
                 if (getAptBody.role === "tutor") {
                     getAptList = `SELECT * FROM TutoringSystem.Appointments WHERE tutor_id = '${getAptBody.ID}'`;
@@ -299,9 +296,9 @@ exports.handler = async (event) => {
         //tutor change apt status to complete
         case event['httpMethod'] === 'POST' && event['path'] === '/getApt/complete':
             const aptCompleteBody = JSON.parse(event.body);
-            return await new Promise((resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 if (aptCompleteBody.role === "tutor" || aptCompleteBody.role === "admin") {
-                    let updateAptList = `UPDATE TutoringSystem.Appointments SET status = 1 WHERE tutor_id = '${aptCompleteBody.tutorID}' AND student_id = '${aptCompleteBody.studentID}' AND appointment_time = '${aptCompleteBody.time}' AND appointment_subject = '${aptCompleteBody.expertise}'`;
+                    let updateAptList = `UPDATE TutoringSystem.Appointments SET status = 1 WHERE id = '${aptCompleteBody.ID}'`;
                     connection.query(updateAptList, (err, results) => {
                         if (err) {
                             reject(err);
@@ -309,9 +306,20 @@ exports.handler = async (event) => {
                             resolve(buildResponse('200', "Appointment status changed."));
                         }
                     });
-                }else{
-                    reject();
                 }
+            });
+        //Give Rating
+        case event['httpMethod'] === 'POST' && event['path'] === '/giveRating':
+            const ratingBody = JSON.parse(event.body);
+            return new Promise((resolve, reject) => {
+                let ratingQuery = `UPDATE TutoringSystem.Appointment SET gaveRating = '${ratingBody.gaveRating}' WHERE id = '${ratingBody.ID}'; UPDATE TutoringSystem.AccountInfo SET totalStar = totalStar + '${ratingBody.ratingValue}', totalVotes = totalVotes + 1 WHERE id = '${ratingBody.tutorID}'`;
+                connection.query(ratingQuery, (err, results) => {
+                    if (err) {
+                        reject(err);
+                    }else {
+                        resolve(buildResponse('200', "Success"));
+                    }
+                });
             });
         //VERIFY
         case event['httpMethod'] === 'POST' && event['path'] === '/verify':

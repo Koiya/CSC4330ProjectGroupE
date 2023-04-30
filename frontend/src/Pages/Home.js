@@ -6,7 +6,7 @@ import {getId, getRole, getToken} from './components/auth';
 import Axios from "axios";
 import DataTable from "./components/datatable";
 import {useNavigate} from "react-router-dom";
-import {ListItemText, Paper} from "@mui/material";
+import {ListItemText, Paper, Typography} from "@mui/material";
 import { styled } from '@mui/material/styles';
 import {List, ListItem} from "@mui/joy";
 import moment from "moment";
@@ -22,6 +22,10 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function Home(){
     const [pendingList,setPendingList] = useState([]);
     const [data,setData] = useState([]);
+    const [ratingList,setRatingList] = useState([]);
+    const getRating = (data) => {
+        console.log(data);
+    };
     let navigate = useNavigate();
     let token = getToken();
     const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getmessage"
@@ -52,16 +56,31 @@ export default function Home(){
         { name: "Megan Celica", expertise: "Biology"},
         { name: "Bob Celica", expertise: "English"}
     ];*/
-    //DATA
-    const requestBody={
-        role: role,
-        ID:ID
-    }
+
+    //Getting apt list for students
+
     useEffect(() =>  {
         (async () => {
+            let requestBody={
+                role: role,
+                ID:ID,
+                status: 0
+            }
             Axios.post(getAptURL,requestBody).then((response) => {
                 setData(response.data);
-                console.log(response.data)
+            });
+        })();
+    }, []);
+    //Get list of completed
+    useEffect(() =>  {
+        (async () => {
+            let ratingBody={
+                role: role,
+                ID:ID,
+                status: 1
+            }
+            Axios.post(getAptURL,ratingBody).then((response) => {
+                setRatingList(response.data);
             });
         })();
     }, []);
@@ -96,7 +115,6 @@ export default function Home(){
                             messageID:row.original.messageID,
                             status: "Cancelled"
                         }
-                        console.log(requestBody);
                         Axios.post(cancelURL,requestBody)
                             .then((response) => {
                                 navigate(0);
@@ -145,20 +163,10 @@ export default function Home(){
                         return(
                         <button onClick={ (e) => {
                             e.preventDefault();
-                            let startTime = props.row.original.startTime;
-                            let endTime = props.row.original.endTime;
-                            startTime = startTime.replace(/\"/g, "");
-                            endTime = endTime.replace(/\"/g, "");
                             const removeBody = {
-                                tutorID:props.row.original.tutor_id,
-                                studentID:props.row.original.student_id,
-                                tutorName:props.row.original.tutor_name,
-                                expertise:props.row.original.appointment_subject,
-                                startTime:startTime,
-                                endTime:endTime,
+                                ID:props.row.original.id,
                                 role:role
                             }
-                            console.log(removeBody)
                             Axios.post(patchAptURL,removeBody)
                                 .then( (response) => {
                                     navigate(0)
@@ -193,7 +201,6 @@ export default function Home(){
                                         messageID: item.messageID,
                                         status: "Cancelled"
                                     }
-                                    console.log(requestBody);
                                     Axios.post(cancelURL,requestBody)
                                         .then((response) => {
                                             navigate(0);
@@ -207,14 +214,15 @@ export default function Home(){
                 </div>
             </div>
             <div className="backgroundRating">
-                <h2> Previous Tutor: </h2>
+                <h2> Give rating on your previous Tutor: </h2>
                     <div className="textAlign">
-                        <p>
-                            Displaying previous tutor's here
-                        </p>
-                        <div>
-                            <StarRating/>
-                        </div>
+                            {ratingList.map((item) =>
+                                <div>
+                                    <Typography>Tutor: {item.tutor_name}</Typography>
+                                    <Typography>Study: {item.appointment_subject}</Typography>
+                                    <StarRating props={item}/>
+                                </div>
+                            )}
                     </div>
                 </div>
             </>
