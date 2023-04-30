@@ -6,8 +6,10 @@ import {getId, getRole, getToken} from './components/auth';
 import Axios from "axios";
 import DataTable from "./components/datatable";
 import {useNavigate} from "react-router-dom";
-import {Paper} from "@mui/material";
+import {ListItemText, Paper} from "@mui/material";
 import { styled } from '@mui/material/styles';
+import {List, ListItem} from "@mui/joy";
+import moment from "moment";
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -24,6 +26,7 @@ export default function Home(){
     let token = getToken();
     const URL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getmessage"
     const getAptURL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getApt"
+    const cancelURL = "";
     const patchAptURL = getAptURL + "/complete"
     let role = getRole();
     let ID = getId();
@@ -75,8 +78,12 @@ export default function Home(){
             accessor: 'appointment_subject'
         },
         {
-            Header: 'Availability',
-            accessor: 'appointment_time'
+            Header: 'Appointment Time',
+            Cell:({row}) =>(
+                <div>
+                    {row.original.day + " " +  moment(row.original.startTime, 'HH:mm:ss').format("hh:mm a") + "-" +moment(row.original.endTime, 'HH:mm:ss').format("hh:mm a")}
+                </div>
+            )
         },
             {
                 accessor:'request',
@@ -99,8 +106,12 @@ export default function Home(){
                 accessor: 'appointment_subject'
             },
             {
-                Header: 'Availability',
-                accessor: 'appointment_time'
+                Header: 'Appointment Time',
+                Cell:({row}) =>(
+                    <div>
+                        {row.original.day + " " +  moment(row.original.startTime, 'HH:mm:ss').format("hh:mm a") + "-" +moment(row.original.endTime, 'HH:mm:ss').format("hh:mm a")}
+                    </div>
+                )
             },
             {
                 Header: 'Status',
@@ -121,14 +132,17 @@ export default function Home(){
                         return(
                         <Button onClick={ (e) => {
                             e.preventDefault();
-                            let time = props.row.original.appointment_time;
-                            time = time.replace(/:/g, "");
+                            let startTime = props.row.original.startTime;
+                            let endTime = props.row.original.endTime;
+                            startTime = startTime.replace(/\"/g, "");
+                            endTime = endTime.replace(/\"/g, "");
                             const removeBody = {
                                 tutorID:props.row.original.tutor_id,
                                 studentID:props.row.original.student_id,
                                 tutorName:props.row.original.tutor_name,
                                 expertise:props.row.original.appointment_subject,
-                                time:time,
+                                startTime:startTime,
+                                endTime:endTime,
                                 role:role
                             }
                             console.log(removeBody)
@@ -150,16 +164,25 @@ export default function Home(){
                 <>
         {role === "user" ?
             <>
-            <div className="">
+            <div className="backgroundSize">
                 <div>
                     <h2>Pending appointment requests </h2>
-                    <Stack spacing={{ xs: 1, sm: 2 }} sx={{ maxWidth:150 }} direction="column" useFlexGap flexWrap="wrap">
-                        {pendingList.map((item) => <Item key={item.messageID}>Tutor:{item.tutor_name} Expertise:{item.expertise} Time: {item.message_time}</Item>)}
+                    <Stack spacing={{ xs: 1, sm: 2 }}direction="row" >
+                        {pendingList.map((item) =>
+                            <Item key={item.messageID}>
+                                <List dense={true}>
+                                    <ListItem><ListItemText primary="Tutor Name" secondary={item.tutor_name}/></ListItem>
+                                    <ListItem><ListItemText primary="Study" secondary={item.expertise}> </ListItemText></ListItem>
+                                    <ListItem><ListItemText primary="Time" secondary={item.message_time}> </ListItemText></ListItem>
+                                    <ListItem><ListItemText primary="Status" secondary={item.status}> </ListItemText></ListItem>
+                                <Button>Cancel</Button>
+                                </List>
+                            </Item>)}
                     </Stack>
                     <h2>Appointments: </h2>
                     <DataTable data={data} columns={studentCol}/>
                 </div>
-            </div>{/*
+            </div>
             <div className="backgroundRating">
                 <h2> Previous Tutor: </h2>
                     <div className="textAlign">
@@ -170,7 +193,7 @@ export default function Home(){
                             <StarRating/>
                         </div>
                     </div>
-                </div>*/}
+                </div>
             </>
             :
             <div className="backgroundSize">

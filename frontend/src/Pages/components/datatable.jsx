@@ -1,24 +1,8 @@
 import React, {Component, useState,useCallback,useMemo} from 'react';
 import { useTable, useFilters, useGlobalFilter } from 'react-table';
-import Filter from './filter.js';
+import TextField from '@mui/material/TextField';
 import '../../Styles/datatable.css';
 
-
-
-class BtnCellRenderer extends Component {
-    constructor(props) {
-        super(props);
-        this.btnClickedHandler = this.btnClickedHandler.bind(this);
-    }
-    btnClickedHandler() {
-        this.props.clicked(this.props.value);
-    }
-    render() {
-        return (
-            <button onClick={this.btnClickedHandler}>Request Appointment</button>
-        )
-    }
-}
 function DataTable({data, columns, enableSearchBar=false}) {
     const [filterInput, setFilterInput] = useState('');
     const tableInstance = useTable(
@@ -43,7 +27,7 @@ function DataTable({data, columns, enableSearchBar=false}) {
     return(
         <div>
 
-            {enableSearchBar ? <input value={filterInput} onChange={handleFilterChange} placeholder="Search" />
+            {enableSearchBar ? <TextField value={filterInput} onChange={handleFilterChange} placeholder="Search" />
                 : <></>}
             <table {...getTableProps()}>
                 <thead>

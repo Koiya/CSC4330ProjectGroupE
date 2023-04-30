@@ -3,6 +3,9 @@ import Axios from "axios";
 import DataTable from "./components/datatable";
 import {getId,getName,getUser} from "./components/auth";
 import {useNavigate} from "react-router-dom";
+import {Select, SelectChangeEvent } from "@mui/material";
+import {MenuItem} from "@mui/material";
+import moment from "moment/moment";
 
 export default function Appointment() {
     const tutorAptListURL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/getTutorApt"
@@ -10,7 +13,9 @@ export default function Appointment() {
     const createAptURL = "https://32xcur57b2.execute-api.us-east-2.amazonaws.com/beta/createApt"
     const [expertise, setExpertise] = useState('English');
     const [message, setMessage] = useState('');
-    const timeRef = useRef(0);
+    const startTimeRef = useRef(0);
+    const endTimeRef = useRef(0);
+    const dayRef = useRef('Monday');
     const [data,setData] = useState([]);
     let name = getName();
     let email = getUser();
@@ -22,7 +27,34 @@ export default function Appointment() {
         { name: "Megan Celica", expertise: "Biology", rating: 4},
         { name: "Bob Celica", expertise: "English", rating: 5}
     ];*/
-    function TimePicker() {
+    function DayPicker(){
+        const [day,setDay] = useState('Monday');
+        const weekList = [
+            'Sunday',
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+        ]
+        const handleDayChange = (event: SelectChangeEvent) =>{
+            setDay(event.target.value);
+        }
+        dayRef.current = day;
+        return(
+            <div>
+                <Select value={day} onChange={handleDayChange}>
+                    {weekList.map((item)=>(
+                        <MenuItem value={item}>{item}</MenuItem>
+                    ) )}
+                </Select>
+            </div>
+        )
+    }
+
+
+    function TimePicker({props}) {
         const [hour, setHour] = useState('00');
         const [minute, setMinute] = useState('00');
 
@@ -34,7 +66,12 @@ export default function Appointment() {
             setMinute(event.target.value);
         };
         const pickTime = `${hour}${minute}00`;
-        timeRef.current = pickTime;
+        if (props === "start"){
+            startTimeRef.current = pickTime;
+        }
+        if (props === "end"){
+            endTimeRef.current = pickTime;
+        }
         return (
             <div>
                 <select value={hour} onChange={handleHourChange}>
@@ -56,17 +93,22 @@ export default function Appointment() {
         );
     }
     const handleSubmit = (e) => {
-        let time = JSON.stringify(timeRef.current);
-        time = time.replace(/\"/g, "");
-        console.log(time);
+        let startTime = JSON.stringify(startTimeRef.current);
+        let endTime = JSON.stringify(endTimeRef.current);
+        let dayOfTheWeek = dayRef.current;
+        startTime = startTime.replace(/\"/g, "");
+        endTime = endTime.replace(/\"/g, "");
         e.preventDefault();
         const requestBody = {
             ID:ID,
             name:name,
             email:email,
             expertise:expertise,
-            time:time
+            day:dayOfTheWeek,
+            startTime:startTime,
+            endTime:endTime
         }
+        console.log(requestBody);
 
         Axios.post(createAptURL,requestBody)
             .then( (response) => {
@@ -101,7 +143,11 @@ export default function Appointment() {
             },
             {
                 Header:'Availability',
-                accessor:'tutorTime'
+                Cell:({row}) =>(
+                    <div>
+                        {row.original.day + " " +  moment(row.original.startTime, 'HH:mm:ss').format("hh:mm a") + "-" +moment(row.original.endTime, 'HH:mm:ss').format("hh:mm a")}
+                    </div>
+                )
             },
             {
                 accessor:'request',
@@ -132,8 +178,10 @@ export default function Appointment() {
                 <div>
                     <h2> Create an appointment </h2>
                     {message && <p className="message"> {message}</p>}
+                    <label>Set Day: </label>
+                        <DayPicker/>
                     <label>Set Time: </label>
-                    <TimePicker/>
+                    <TimePicker props={"start"}/> to <TimePicker props={"end"}/>
                     <label>Set Expertise: </label>
                     <select value = {expertise} onChange={(e) =>  setExpertise(e.target.value)}>
                         <option value="English">English</option>

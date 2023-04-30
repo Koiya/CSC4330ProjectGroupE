@@ -40,6 +40,9 @@ export default function Notifications() {
                                         studentName: item.student_name,
                                         tutorID:item.receiver_id,
                                         tutorName: item.tutor_name,
+                                        day:item.day,
+                                        startTime: item.startTime,
+                                        endTime: item.endTime,
                                         expertise:item.expertise,
                                         role:role,
                                         status:"Accepted"

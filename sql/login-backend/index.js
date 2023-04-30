@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const jwt = require('jsonwebtoken');
-
+import {cancelMessage} from "./services/cancelMessage";
 const connection = mysql.createConnection({
     host     : process.env.HOST,
     user     : process.env.USER,
@@ -179,15 +179,19 @@ exports.handler = async (event) => {
                     resolve(buildResponse('404',"Error"));
                 }
             });
+        //CANCEL MESSAGES
+        case event['httpMethod'] === 'POST' && event['path'] === '/sendMessage/cancel':
+            const cancelBody = JSON.parse(event.body);
+            await cancelMessage({connection,cancelBody});
 
         //SEND MESSAGES
         case event['httpMethod'] === 'POST' && event['path'] === '/sendMessage':
             const sendMessageBody = JSON.parse(event.body);
             return await new Promise((resolve, reject) => {
-                const sendMessageQuery = `INSERT INTO TutoringSystem.Messages(sender_id,receiver_id,student_name,tutor_name,expertise,message_time,message,status) 
-                                         VALUES ('${sendMessageBody.userID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.expertise}', '${sendMessageBody.time}', '${sendMessageBody.message}', '${sendMessageBody.status}')`;
+                const sendMessageQuery = `INSERT INTO TutoringSystem.Messages(sender_id,receiver_id,student_name,tutor_name,expertise,day,startTime,endTime,message,status) 
+                                         VALUES ('${sendMessageBody.userID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.expertise}', '${sendMessageBody.day}','${sendMessageBody.startTime}','${sendMessageBody.endTime}', '${sendMessageBody.message}', '${sendMessageBody.status}')`;
                 const findMessageQuery = `SELECT * FROM TutoringSystem.Messages 
-                                          WHERE sender_id = '${sendMessageBody.userID}' AND receiver_id = '${sendMessageBody.tutorID}' AND message_time = '${sendMessageBody.time}'`;
+                                          WHERE sender_id = '${sendMessageBody.userID}' AND receiver_id = '${sendMessageBody.tutorID}' AND startTime = '${sendMessageBody.startTime}'`;
                 //User is requesting apt
                 if (sendMessageBody.userRole === 'user') {
                     connection.query(findMessageQuery, async (err, results) => {
@@ -213,8 +217,8 @@ exports.handler = async (event) => {
                     //Tutor replying
                 }else if(sendMessageBody.role === 'tutor'){
                     const updateMessageQuery = `UPDATE TutoringSystem.Messages SET status = '${sendMessageBody.status}' WHERE messageID = '${sendMessageBody.messageID}'`
-                    const insertAptQuery = `INSERT INTO TutoringSystem.Appointments(student_id,tutor_id,student_name,tutor_name,appointment_time,appointment_subject) 
-                                            VALUES ('${sendMessageBody.studentID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.time}','${sendMessageBody.expertise}')`
+                    const insertAptQuery = `INSERT INTO TutoringSystem.Appointments(student_id,tutor_id,student_name,tutor_name,day,startTime,endTime,appointment_subject) 
+                                            VALUES ('${sendMessageBody.studentID}', '${sendMessageBody.tutorID}','${sendMessageBody.studentName}','${sendMessageBody.tutorName}','${sendMessageBody.day}','${sendMessageBody.startTime}','${sendMessageBody.endTime}','${sendMessageBody.expertise}')`
                     connection.query(updateMessageQuery, async (err, results) => {
                         if (err) {
                             reject(err);
@@ -238,8 +242,8 @@ exports.handler = async (event) => {
         case event['httpMethod'] === 'POST' && event['path'] === '/createApt':
             const aptBody = JSON.parse(event.body);
             return await new Promise((resolve, reject) => {
-                const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,tutorTime) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.time}')`;
-                const findAptQuery = `SELECT * FROM TutoringSystem.TutorList WHERE tutorName = '${aptBody.name}' AND tutorTime = '${aptBody.time}'`;
+                const createAptQuery = `INSERT INTO TutoringSystem.TutorList(tutorID,tutorName,email,tutorExpertise,startTime,endTime,day) VALUES ('${aptBody.ID}','${aptBody.name}', '${aptBody.email}', '${aptBody.expertise}','${aptBody.startTime}','${aptBody.endTime}','${aptBody.day}')`;
+                const findAptQuery = `SELECT * FROM TutoringSystem.TutorList WHERE (tutorID = '${aptBody.ID}' AND startTime = '${aptBody.startTime}' AND day = '${aptBody.day}')`;
                 //CHECKS IF SAME TIME
                 connection.query(findAptQuery, async (err, results) => {
                     if (err) {
