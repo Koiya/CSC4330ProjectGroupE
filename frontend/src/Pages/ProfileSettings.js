@@ -10,11 +10,11 @@ export default function ProfileSettings() {
 
 
     return (
-        <div className="auth-form-container">
+        <div >
             <div className="backgroundNotyPage">
-                <h2 className="theLabel">Name: <label className="theLabel">{name}</label> </h2>
-                <h2 className="theLabel">Email: <label className="theLabel">{user}</label> </h2>
-                <h2 className="theLabel">Role: <label className="theLabel">{role}</label> </h2>
+                <h2 className="theLabel2">Name: <label className="theLabel2">{name}</label> </h2>
+                <h2 className="theLabel2">Email: <label className="theLabel2">{user}</label> </h2>
+                <h2 className="theLabel2">Role: <label className="theLabel2">{role}</label> </h2>
             </div>
        </div>
     )
