@@ -102,7 +102,11 @@ exports.handler = async (event) => {
         case event['httpMethod'] === 'POST' && event['path'] === '/getTutor':
             const userBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
-                connection.query(`SELECT * FROM TutoringSystem.TutorList WHERE email LIKE '%${userBody.email}%'`
+                let getQuery = `SELECT * FROM TutoringSystem.TutorList WHERE email LIKE '%${userBody.email}%'`;
+                if(userBody.role === "admin") {
+                    getQuery = `SELECT * FROM TutoringSystem.TutorList`;
+                }
+                connection.query(getQuery
                     , (err, results) => {
                         if (err) {
                             reject(err);
@@ -339,6 +343,37 @@ exports.handler = async (event) => {
                         user: verifyBody.username,
                         token: verifyBody.token
                     }));
+            });
+            //UPDATE USER
+        case event['httpMethod'] === 'PUT' && event['path'] === '/updateUser':
+            const updateUserBody = JSON.parse(event.body);
+            return new Promise((resolve, reject) => {
+                if (updateUserBody.userRole === 'admin') {
+                    let updateUserQuery = `UPDATE TutoringSystem.AccountInfo
+                    SET first_name = '${updateUserBody.first_name}', last_name = '${updateUserBody.last_name}', email='${updateUserBody.email}', role='${updateUserBody.role}', totalVotes='${updateUserBody.totalVotes}', totalStar = '${updateUserBody.totalStar}' WHERE id = '${event.queryStringParameters.id}'`;
+                    connection.query(updateUserQuery, (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(buildResponse('200', "Success"));
+                        }
+                    });
+                }
+            });
+            //delete user
+        case event['httpMethod'] === 'PUT' && event['path'] === '/updateUser/delete':
+            const deleteUserBody = JSON.parse(event.body);
+            return new Promise((resolve, reject) => {
+                if (deleteUserBody.role === 'admin') {
+                    let deleteUserQuery = `DELETE FROM TutoringSystem.AccountInfo WHERE id = '${event.queryStringParameters.id}'`;
+                    connection.query(deleteUserQuery, (err, results) => {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve(buildResponse('200', "Success"));
+                        }
+                    });
+                }
             });
     }
 };

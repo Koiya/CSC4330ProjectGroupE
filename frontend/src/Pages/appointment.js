@@ -138,7 +138,7 @@ export default function Appointment() {
                 accessor: 'tutorName'
             },
             {
-                Header: 'Expertise',
+                Header: 'Subject',
                 accessor: 'tutorExpertise'
             },
             {

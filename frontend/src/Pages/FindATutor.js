@@ -62,7 +62,7 @@ export default function FindATutor() {
                 accessor: 'tutorName'
             },
             {
-                Header: 'Study',
+                Header: 'Subject',
                 accessor: 'tutorExpertise'
             },
             {
