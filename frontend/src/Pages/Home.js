@@ -95,7 +95,7 @@ export default function Home(){
             accessor: 'tutor_name'
         },
         {
-            Header: 'Subject',
+            Header: 'Expertise',
             accessor: 'appointment_subject'
         },
         {
@@ -133,7 +133,7 @@ export default function Home(){
                 accessor: 'student_name'
             },
             {
-                Header: 'Subject',
+                Header: 'Expertise',
                 accessor: 'appointment_subject'
             },
             {
@@ -229,23 +229,7 @@ export default function Home(){
             :
             <div className="backgroundSize">
                 <div>
-                    <h1>Appointment management</h1>
-                    {role === "admin"&&
-                        <div>
-                            <h1>Create Appointment</h1>
-                            <div style={{overflow:"hidden", marginBottom:20}}>
-                            <label style={{marginRight:20}}>
-                                Tutor ID: <input style={{width:100}} type="number"/>
-                            </label>
-                            <label style={{marginRight:20}}>
-                                Student ID: <input style={{width:100}} type="number"/>
-                            </label>
-                            <label>
-                                Study: <input style={{width:100}} type="number"/>
-                            </label>
-                            </div>
-                        </div>
-                    }
+                    <h1>Appointment Management:</h1>
                     <DataTable data={data} columns={tutorCol}/>
                 </div>
             </div>
