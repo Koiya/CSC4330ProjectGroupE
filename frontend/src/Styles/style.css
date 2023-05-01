@@ -1,7 +1,7 @@
 .backgroundSize {
     height: 750px;
     width: 50%;
-    border: 2px solid #282c34;
+    border: 2px solid #1c54b2;
     padding: 20px;
     margin-top: 10px;
     text-align: left;
@@ -13,7 +13,7 @@
  .backgroundRating {
    height: 350px;
    width: 44%;
-   border: 2px solid #282c34;
+   border: 2px solid #1c54b2;
    padding: 20px;
    margin-top: 10px;
    text-align: left;
@@ -26,7 +26,7 @@
 .backgroundNoty {
    height: 390px;
    width: 44%;
-   border: 2px solid #282c34;
+   border: 2px solid #1c54b2;
    padding: 20px;
    margin-top: 10px;
    text-align: left;
@@ -37,10 +37,9 @@
 }
 
 .backgroundNotyPage {
-    background-color: #282c34;
    height: 750px;
    width: 55%;
-   border: 2px solid #282c34;
+   border: 2px solid #1c54b2;
    padding: 20px;
    text-align: left;
    border-radius: 50px 50px 50px 50px;
@@ -52,7 +51,7 @@
 .messages {
    height: 500px;
    width: 40%;
-   border: 2px solid #282c34;
+   border: 2px solid #1c54b2;
    padding: 20px;
    text-align: center;
    border-radius: 50px 50px 50px 50px;
@@ -63,7 +62,7 @@
 .backgroundFindTutor {
    height: 750px;
    width: 100%;
-   border: 2px solid #282c34;
+   border: 2px solid #1c54b2;
    padding: 20px;
    text-align: left;
    border-radius: 50px 50px 50px 50px;
@@ -75,7 +74,7 @@
 .styling {
    height: 30px;
    width: 20%;
-   border: 2px solid #282c34;
+   border: 2px solid #1c54b2;
    padding: 20px;
    border-radius: 50px 50px 50px 50px;
    text-align: center;
@@ -128,7 +127,7 @@
  }
 
  body {
-   background:#eeeeee;
+   background:white;
    overflow: scroll;
  }
  

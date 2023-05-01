@@ -7,7 +7,7 @@ function UserLogin({handler}){
         return <><PageLink to="/register">Register</PageLink><PageLink to="/login">Login</PageLink></>
     }
     return <><PageLink to="/ProfileSettings">Profile Settings</PageLink>
-            <button className="button" onClick={handler}>Log Out</button>
+            <PageLink to="/Login" onClick={handler}>Log Out</PageLink>
         </>
 }
 
@@ -27,7 +27,7 @@ export default function Navbar(){
         <nav className="nav">
             <ul>
                 <PageLink to="/">Home</PageLink>
-                <PageLink to="/FindATutor">Find A Tutor</PageLink>
+                {role === "user" ? <><PageLink to="/FindATutor">Find A Tutor</PageLink></>: <></>}
                 {role === "tutor" ? <><PageLink to="/appointment">Appointments</PageLink> <PageLink to="/Notifications">Notifications</PageLink></>: <></>}
                 {role === "admin" ? <><PageLink to="/admin">Admin</PageLink></>: <></>}
             </ul>
