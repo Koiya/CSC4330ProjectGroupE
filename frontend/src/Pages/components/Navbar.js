@@ -27,7 +27,7 @@ export default function Navbar(){
         <nav className="nav">
             <ul>
                 <PageLink to="/">Home</PageLink>
-                <PageLink to="/FindATutor">Find A Tutor</PageLink>
+                {role === "user" ? <><PageLink to="/FindATutor">Find A Tutor</PageLink></>: <></>}
                 {role === "tutor" ? <><PageLink to="/appointment">Appointments</PageLink> <PageLink to="/Notifications">Notifications</PageLink></>: <></>}
             </ul>
             <ul>
