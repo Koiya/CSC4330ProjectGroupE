@@ -187,7 +187,7 @@ export default function Home(){
             <>
             <div className="backgroundSize">
                 <div>
-                    <h2>Pending appointment requests </h2>
+                    <h2>Pending Appointment Requests: </h2>
                     <Stack spacing={{ xs: 1, sm: 2 }}direction="row" >
                         {pendingList.map((item) =>
                             <Item key={item.messageID}>
@@ -214,7 +214,7 @@ export default function Home(){
                 </div>
             </div>
             <div className="backgroundRating">
-                <h2> Give rating on your previous Tutor: </h2>
+                <h2> Rate Your Previous Tutor: </h2>
                     <div className="textAlign">
                             {ratingList.map((item) =>
                                 <div>
