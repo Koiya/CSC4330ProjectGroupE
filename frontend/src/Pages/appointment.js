@@ -176,20 +176,24 @@ export default function Appointment() {
         <>
             <div className="backgroundFindTutor">
                 <div>
-                    <h2> Create an appointment </h2>
+                    <h2> Create An Appointment: </h2>
                     {message && <p className="message"> {message}</p>}
-                    <label>Set Day: </label>
+                    <label style={{alignContent: 'center'}}>Set Day: </label>
+                    <div style={{margin: '5px', alignContent: 'center'}}>
                         <DayPicker/>
+                    </div>
                     <label>Set Time: </label>
-                    <TimePicker props={"start"}/> to <TimePicker props={"end"}/>
+                    <div style={{margin: '5px', alignContent: 'center'}}>
+                        <TimePicker props={"start"}/> to <TimePicker props={"end"}/>
+                    </div>
                     <label>Set Expertise: </label>
                     <select value = {expertise} onChange={(e) =>  setExpertise(e.target.value)}>
                         <option value="English">English</option>
                         <option value="Math">Math</option>
                         <option value="Science">Science</option>
                     </select>
-                    <button onClick={handleSubmit}>Create Appointment</button>
                 </div>
+                    <button onClick={handleSubmit} style={{margin: '10px'}}>Create Appointment</button>
                 <div>
                     <h3>Your Appointments:</h3>
                     <DataTable data={data} columns={columns}/>

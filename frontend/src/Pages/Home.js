@@ -229,7 +229,7 @@ export default function Home(){
             :
             <div className="backgroundSize">
                 <div>
-                    <h1>Appointment management</h1>
+                    <h1>Appointment Management:</h1>
                     <DataTable data={data} columns={tutorCol}/>
                 </div>
             </div>
