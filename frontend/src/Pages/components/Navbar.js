@@ -7,7 +7,7 @@ function UserLogin({handler}){
         return <><PageLink to="/register">Register</PageLink><PageLink to="/login">Login</PageLink></>
     }
     return <><PageLink to="/ProfileSettings">Profile Settings</PageLink>
-            <button className="button" onClick={handler}>Log Out</button>
+            <PageLink to="/Login" onClick={handler}>Log Out</PageLink>
         </>
 }
 
