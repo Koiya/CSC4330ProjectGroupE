@@ -18,6 +18,7 @@ const StarRating = (props) => {
             className={index <= ( rating) ? "on" : "off"}
             onClick={(e) => {
               e.preventDefault();
+              setRating(index);
               const requestBody = {
                 ID: props.props.id,
                 tutorID: props.props.tutor_id,

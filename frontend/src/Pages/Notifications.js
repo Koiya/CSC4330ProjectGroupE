@@ -82,12 +82,12 @@ export default function Notifications() {
     return (
         <>
         <h2> Notifications: </h2>
-        <div className="backgroundNotyPage">
+        <div>
             <div className="textAlign">
                 <div>
                     <table>
                         <div className="notificationList">
-                            <CreateNoti items={getList}/>
+                            <CreateNoti  items={getList}/>
                         </div>
                     </table>
                 </div>

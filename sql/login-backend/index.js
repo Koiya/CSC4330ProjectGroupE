@@ -316,7 +316,8 @@ exports.handler = async (event) => {
         case event['httpMethod'] === 'POST' && event['path'] === '/giveRating':
             const ratingBody = JSON.parse(event.body);
             return new Promise((resolve, reject) => {
-                let ratingQuery = `UPDATE TutoringSystem.Appointment SET gaveRating = '${ratingBody.gaveRating}' WHERE id = '${ratingBody.ID}'; UPDATE TutoringSystem.AccountInfo SET totalStar = totalStar + '${ratingBody.ratingValue}', totalVotes = totalVotes + 1 WHERE id = '${ratingBody.tutorID}'`;
+                const ratingQuery = `UPDATE TutoringSystem.Appointments SET gaveRating = 'Yes' WHERE id = '${ratingBody.ID}'; 
+                UPDATE TutoringSystem.AccountInfo SET totalStar = totalStar + '${ratingBody.ratingValue}', totalVotes = (totalVotes + 1) WHERE id = '${ratingBody.tutorID}'`;
                 connection.query(ratingQuery, (err, results) => {
                     if (err) {
                         reject(err);
