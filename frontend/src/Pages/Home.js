@@ -108,7 +108,7 @@ export default function Home(){
         },
             {
                 accessor:'request',
-                Cell: ({ row}) => (
+                Cell: ({row}) => (
                     <Button onClick={(e) => {
                         e.preventDefault();
                         const requestBody = {
@@ -218,9 +218,9 @@ export default function Home(){
                     <div className="textAlign">
                             {ratingList.map((item) =>
                                 <div>
-                                    <Typography>Tutor: {item.tutor_name}</Typography>
-                                    <Typography>Study: {item.appointment_subject}</Typography>
-                                    <StarRating props={item}/>
+                                    <Typography style={{ fontSize: '2rem' }}>Tutor: {item.tutor_name}</Typography>
+                                    <Typography style={{ fontSize: '1.5rem' }}>Subject: {item.appointment_subject}</Typography>
+                                    <StarRating props={item} style={{ fontSize: '1rem'}}/>
                                 </div>
                             )}
                     </div>
